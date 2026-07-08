@@ -8,21 +8,27 @@ load_dotenv()
 
 APP_NAME = "file-transfer-system"
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 app = FastAPI(title=APP_NAME)
 
-# CORS: allow the React frontend (Vite dev server / deployed origin) to call this API.
+# CORS: allow the React frontend to call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_ORIGIN],
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
+@app.get("/")
+def root():
+    """Root endpoint for the FastAPI backend."""
+    return {"message": f"Welcome to {APP_NAME}!"}
+
+
 @app.get("/health")
 def health_check():
-    """Simple connectivity check used to confirm React <-> FastAPI wiring (Phase 0)."""
+    """Health check endpoint for the FastAPI backend."""
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
