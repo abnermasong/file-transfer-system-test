@@ -10,7 +10,10 @@ APP_NAME = "file-transfer-system"
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
-app = FastAPI(title=APP_NAME)
+app = FastAPI(
+    title=APP_NAME,
+    version="1.0.0",
+)
 
 # CORS: allow the React frontend to call this API
 app.add_middleware(
@@ -24,11 +27,9 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    """Root endpoint for the FastAPI backend."""
     return {"message": f"Welcome to {APP_NAME}!"}
 
 
 @app.get("/health")
 def health_check():
-    """Health check endpoint for the FastAPI backend."""
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
