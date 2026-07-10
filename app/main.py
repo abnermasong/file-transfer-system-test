@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routes.api.upload import router as upload_router
+
 load_dotenv()
 
 APP_NAME = "file-transfer-system"
@@ -33,3 +35,6 @@ def root():
 @app.get("/health")
 def health_check():
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
+
+
+app.include_router(upload_router, prefix="/api")
