@@ -1,20 +1,58 @@
 import { useState } from "react";
+import { uploadFile } from "../api/client";
 import FileDropzone from "../components/FileDropzone";
 import RequiredAsterisk from "../components/RequiredAsterisk";
 
-const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024;
+const MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024;
 
 export default function FileUploadPage() {
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle");
+  const [message, setMessage] = useState("");
+  const [result, setResult] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!file) return;
 
-    console.log("File to be uploaded: ", file);
-    console.log("Email:", email);
+    setStatus("uploading");
+    setMessage("");
+
+    try {
+      const data = await uploadFile(file);
+      setStatus("success");
+      setResult(data);
+      setMessage("File uploaded to GCS successfully");
+    } catch (error) {
+      setStatus("error");
+      setMessage(error.message);
+    }
+  };
+
+  const renderUploadStatus = () => {
+    if (status === "success") {
+      return (
+        <p className="mt-4 text-sm font-medium text-green-700">
+          {message}
+          <br />
+          Storage path: {result?.storage_path}
+          <br />
+          Size: {result?.file_size} bytes
+        </p>
+      );
+    }
+
+    if (status === "error") {
+      return (
+        <p className="mt-4 text-sm font-medium text-red-600">
+          Error: {message}
+        </p>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -52,13 +90,14 @@ export default function FileUploadPage() {
         />
         <button
           type="submit"
-          disabled={!file || !email}
+          disabled={!file || !email || status === "uploading"}
           className="w-full mt-6 px-6 py-3 text-white font-semibold bg-blue-600 rounded-md
             hover:bg-blue-700
             disabled:cursor-not-allowed disabled:bg-gray-400"
         >
-          Send File
+          {status === "uploading" ? "Uploading..." : "Send file"}
         </button>
+        {renderUploadStatus()}
       </form>
     </main>
   );
