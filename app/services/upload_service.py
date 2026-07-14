@@ -2,7 +2,9 @@ import mimetypes
 import os
 
 from app.db.file_transfers import insert_file_transfer
-from app.services.utils.gcs import upload_file_to_gcs, delete_file_from_gcs
+from app.services.utils.date_formatter import format_expiration_datetime
+from app.services.utils.email import send_upload_notification_email
+from app.services.utils.gcs import delete_file_from_gcs, upload_file_to_gcs
 from app.services.utils.token import generate_download_token
 
 MAX_FILE_SIZE_BYTES = int(os.getenv("MAX_FILE_SIZE_MB", "")) * 1024 * 1024
@@ -71,5 +73,18 @@ def process_upload(
         raise UploadDatabaseError(
             "Saving transfer record failed. The uploaded file in GCS has been removed."
         ) from db_error
+
+    try:
+        formatted_expires_at = format_expiration_datetime(record["expires_at"])
+
+        send_upload_notification_email(
+            recipient_email=recipient_email,
+            file_name=filename,
+            expires_at=formatted_expires_at,
+        )
+    except Exception:
+        record["email_warning"] = (
+            "File uploaded and record has been appended but an error occured while sending the email notification."
+        )
 
     return record

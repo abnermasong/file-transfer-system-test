@@ -40,6 +40,12 @@ export default function FileUploadPage() {
           Storage path: {result?.storage_path}
           <br />
           Size: {result?.file_size} bytes
+          {result?.email_warning && (
+            <>
+              <br />
+              <span className="text-yellow-700">⚠ {result.email_warning}</span>
+            </>
+          )}
         </p>
       );
     }
