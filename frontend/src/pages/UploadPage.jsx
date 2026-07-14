@@ -21,7 +21,7 @@ export default function FileUploadPage() {
     setMessage("");
 
     try {
-      const data = await uploadFile(file);
+      const data = await uploadFile(file, email);
       setStatus("success");
       setResult(data);
       setMessage("File uploaded to GCS successfully");
