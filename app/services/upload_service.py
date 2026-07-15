@@ -3,7 +3,7 @@ import os
 
 from app.db.file_transfers import insert_file_transfer
 from app.services.utils.date_formatter import format_expiration_datetime
-from app.services.utils.email import send_upload_notification_email
+from app.services.utils.resend import send_upload_notification_email
 from app.services.utils.gcs import delete_file_from_gcs, upload_file_to_gcs
 from app.services.utils.token import generate_download_token
 
