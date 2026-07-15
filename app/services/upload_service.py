@@ -3,8 +3,8 @@ import os
 
 from app.db.file_transfers import insert_file_transfer
 from app.services.utils.date_formatter import format_expiration_datetime
-from app.services.utils.resend import send_upload_notification_email
 from app.services.utils.gcs import delete_file_from_gcs, upload_file_to_gcs
+from app.services.utils.resend import send_upload_notification_email
 from app.services.utils.token import generate_download_token
 
 MAX_FILE_SIZE_BYTES = int(os.getenv("MAX_FILE_SIZE_MB", "")) * 1024 * 1024
@@ -77,9 +77,13 @@ def process_upload(
     try:
         formatted_expires_at = format_expiration_datetime(record["expires_at"])
 
+        frontend_url = os.getenv("FRONTEND_URL", "")
+        download_url = f"{frontend_url}/d/{download_token}"
+
         send_upload_notification_email(
             recipient_email=recipient_email,
             file_name=filename,
+            download_url=download_url,
             expires_at=formatted_expires_at,
         )
     except Exception:

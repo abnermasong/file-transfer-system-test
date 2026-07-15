@@ -4,7 +4,7 @@ import resend
 
 
 def send_upload_notification_email(
-    *, recipient_email: str, file_name: str, expires_at: str
+    *, recipient_email: str, download_url: str, file_name: str, expires_at: str
 ) -> None:
 
     resend.api_key = os.getenv("RESEND_API_KEY", "")
@@ -18,6 +18,7 @@ def send_upload_notification_email(
             "text": (
                 f"A file has been shared with you.\n\n"
                 f"File name: {file_name}\n"
+                f"Download link: {download_url}\n"
                 f"This link expires on: {expires_at}\n\n"
             ),
         }
