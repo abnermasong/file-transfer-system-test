@@ -18,3 +18,16 @@ export async function uploadFile(file, recipientEmail) {
 
   return data;
 }
+
+export async function getDownloadStatus(downloadToken) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/download/${downloadToken}/status`,
+  );
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.detail || `Status check failed: ${res.status}`);
+  }
+
+  return data;
+}
