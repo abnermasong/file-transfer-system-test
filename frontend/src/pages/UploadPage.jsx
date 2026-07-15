@@ -2,6 +2,7 @@ import { useState } from "react";
 import { uploadFile } from "../api/client";
 import FileDropzone from "../components/FileDropzone";
 import RequiredAsterisk from "../components/RequiredAsterisk";
+import UploadStatus from "../components/UploadStatus";
 
 const MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024;
 
@@ -29,36 +30,6 @@ export default function FileUploadPage() {
       setStatus("error");
       setMessage(error.message);
     }
-  };
-
-  const renderUploadStatus = () => {
-    if (status === "success") {
-      return (
-        <p className="mt-4 text-sm font-medium text-green-700">
-          {message}
-          <br />
-          Storage path: {result?.storage_path}
-          <br />
-          Size: {result?.file_size} bytes
-          {result?.email_warning && (
-            <>
-              <br />
-              <span className="text-yellow-700">⚠ {result.email_warning}</span>
-            </>
-          )}
-        </p>
-      );
-    }
-
-    if (status === "error") {
-      return (
-        <p className="mt-4 text-sm font-medium text-red-600">
-          Error: {message}
-        </p>
-      );
-    }
-
-    return null;
   };
 
   return (
@@ -103,7 +74,7 @@ export default function FileUploadPage() {
         >
           {status === "uploading" ? "Uploading..." : "Send file"}
         </button>
-        {renderUploadStatus()}
+        <UploadStatus status={status} message={message} result={result} />
       </form>
     </main>
   );
