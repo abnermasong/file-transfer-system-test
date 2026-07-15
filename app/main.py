@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.api.upload import router as upload_router
+from app.routes.api.download import router as download_router
 
 load_dotenv()
 
@@ -27,14 +28,10 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def root():
-    return {"message": f"Welcome to {APP_NAME}!"}
-
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
 
 
 app.include_router(upload_router, prefix="/api")
+app.include_router(download_router, prefix="/api")

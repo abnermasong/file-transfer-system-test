@@ -24,3 +24,15 @@ def insert_file_transfer(
         .execute()
     )
     return result.data[0]
+
+
+def get_file_transfer_by_token(download_token: str) -> dict | None:
+    client = get_supabase_client()
+    result = (
+        client.table("file_transfers")
+        .select("*")
+        .eq("download_token", download_token)
+        .limit(1)
+        .execute()
+    )
+    return result.data[0] if result.data else None
