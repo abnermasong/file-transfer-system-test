@@ -19,10 +19,10 @@ const UploadErrorMessage = ({ message }) => {
 };
 
 export default function UploadStatus({ status, message, result }) {
-  const renderByStatus = {
+  const renderByUploadStatus = {
     success: <UploadSuccessMessage message={message} result={result} />,
     error: <UploadErrorMessage message={message} />,
   };
 
-  return renderByStatus[status] ?? null;
+  return renderByUploadStatus[status] ?? null;
 }

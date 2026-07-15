@@ -22,15 +22,18 @@ const StatusMessage = ({ message }) => {
 };
 
 export default function DownloadStatus({ status, fileName }) {
-  const renderByStatus = {
+  const renderByDownloadStatus = {
     loading: <LoadingMessage />,
     otp_required: <OtpRequest fileName={fileName} />,
     download_limit_reached: <StatusMessage message="Download limit reached." />,
     expired: <StatusMessage message="This link has expired." />,
     not_found: <StatusMessage message="This link was not found." />,
+    error: <StatusMessage message="Something went wrong." />,
   };
 
   return (
-    renderByStatus[status] ?? <StatusMessage message="Something went wrong." />
+    renderByDownloadStatus[status] ?? (
+      <StatusMessage message="Something went wrong." />
+    )
   );
 }
