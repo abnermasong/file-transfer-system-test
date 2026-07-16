@@ -194,7 +194,7 @@
 
 - Check `file_transfers.status` when fetching download link
 - Display landing page according to status
-  - Available → Request OTP to Access
+  - Available → Request OTP to Download File
   - Download Limit Reached → Download limit reached.
   - Expired → This link has expired
   - Deleted → This link was not found

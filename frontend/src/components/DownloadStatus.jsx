@@ -11,7 +11,7 @@ const OtpRequest = ({ fileName }) => {
         type="button"
         className="mt-4 w-full rounded-md bg-blue-600 px-6 py-3 font-semibold text-white"
       >
-        Request a one-time code to download this file
+        Request OTP to Download File
       </button>
     </>
   );
