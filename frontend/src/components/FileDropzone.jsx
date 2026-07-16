@@ -35,8 +35,16 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
   const handleDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
-
     selectFile(event.dataTransfer.files?.[0]);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
   };
 
   const openFilePicker = () => {
@@ -88,11 +96,8 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
             : "border-gray-300 hover:border-blue-600 hover:bg-blue-50"
         }`}
       onClick={openFilePicker}
-      onDragOver={(event) => {
-        event.preventDefault();
-        setIsDragging(true);
-      }}
-      onDragLeave={() => setIsDragging(false)}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       tabIndex={0}
     >
