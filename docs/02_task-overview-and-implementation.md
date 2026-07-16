@@ -5,21 +5,21 @@
 ## Tech Stack
 
 - Frontend: React
-    - https://react.dev/
+  - <https://react.dev/>
 - Backend: FastAPI
-    - https://fastapi.tiangolo.com/
+  - <https://fastapi.tiangolo.com/>
 - Package Manager: uv
-    - https://docs.astral.sh/uv/
+  - <https://docs.astral.sh/uv/>
 - Hosting: Render
-    - https://render.com/
-    - Testing: Ngrok
-        - https://ngrok.com/
+  - <https://render.com/>
+  - Testing: Ngrok
+    - <https://ngrok.com/>
 - Database: Supabase
-    - https://supabase.com/
+  - <https://supabase.com/>
 - File Storage: Google Cloud Storage (GCS)
-    - https://cloud.google.com/storage?hl=en
+  - <https://cloud.google.com/storage?hl=en>
 - Email Service: Resend
-    - https://resend.com/
+  - <https://resend.com/>
 
 ```markdown
 # Decision Making
@@ -29,24 +29,24 @@
 - FastAPI
 - uv
 - Render
-	- Tested that it can handle a single request containing 500mb file size
+ - Tested that it can handle a single request containing 500mb file size
 - Supabase
-	- Supports relational database
+ - Supports relational database
 - GCS
-	- Supports signed URL
+ - Supports signed URL
 
 ### Resend
 - Free plan supports:
-	- Sending emails
-	- 3,000 email per month
-	- 100 email per day
+ - Sending emails
+ - 3,000 email per month
+ - 100 email per day
 ```
 
 ## Implementation Steps
 
 ### Phase 0 — Project Setup
 
-#### Process:
+#### Process
 
 - Set up the base project structure
 
@@ -94,7 +94,7 @@
 - Add CORS in FastAPI
 - Set up ngrok for local dev
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Frontend is displayed and accessible
 - [ ]  Confirm React can call FastAPI
@@ -104,14 +104,14 @@
 
 ### Phase 1 — External Services Setup
 
-#### Process:
+#### Process
 
 - Create Supabase project
 - Create GCS bucket (private, no public access) & service account
 - Create Resend account
 - Write a minimal connectivity check for each
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Supabase connection
 - [ ]  GCS connection
@@ -121,11 +121,11 @@
 
 ### Phase 2 — Database Schema
 
-#### Process:
+#### Process
 
 - Create the following tables:
-    - Table 1: `file_transfers` (long-lived)
-    - Table 2: `otp_attempts` (short-lived)
+  - Table 1: `file_transfers` (long-lived)
+  - Table 2: `otp_attempts` (short-lived)
 
     ```mermaid
     erDiagram
@@ -158,8 +158,7 @@
         }
     ```
 
-
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Table 1 & 2 has been created
 - [ ]  Try fetching data from tables to application
@@ -168,19 +167,19 @@
 
 ### Phase 3 — File Upload API & UI
 
-#### Process:
+#### Process
 
 - Display a form that can be submitted where user can input recipient’s email, and upload/drop a file.
 - Upload/drop a file input validation:
-    - File size: <500 MB
-    - Any file type must be supported
-    - Retain the file name
+  - File size: <500 MB
+  - Any file type must be supported
+  - Retain the file name
 - Success/failure message is shown accordingly
 - On successful submission:
-    - Record data in `file_transfers` table
-    - Uploaded file is stored in GCS
+  - Record data in `file_transfers` table
+  - Uploaded file is stored in GCS
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Upload/drop a file input validation
 - [ ]  Success/failure message is shown accordingly
@@ -191,69 +190,71 @@
 
 ### Phase 4 — Download Link Landing & Status Check
 
-#### Process:
+#### Process
 
 - Check `file_transfers.status` when fetching download link
 - Display landing page according to status
-    - Uploaded → Request OTP to Access
-    - Available → Request OTP to Access
-    - Download Limit Reached → Download limit reached.
-    - Expired → This link has expired
-    - Deleted → This link was not found
+  - Uploaded → Request OTP to Access
+  - Available → Request OTP to Access
+  - Download Limit Reached → Download limit reached.
+  - Expired → This link has expired
+  - Deleted → This link was not found
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Landing page is correctly displayed according to `file_transfers.status`
 
 **Estimation:** 1-1.5 day
 
-### Phase 5 — OTP Generation & Sending
+### Phase 5 — OTP Generation & Sending & Verification
 
-#### Process:
+#### Process
 
 - When `file_transfers.status` is `AVAILABLE`, sends an OTP to `file_transfers.recipient_email`
+- Display an input OTP form
+- OTP Validation:
+  - One time use only
+  - Valid for 10 minutes after creation
+  - Must be hashed before stored in database
+- Validate OTP submitted by recipient
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  OTP is sent to `file_transfers.recipient_email`
 - [ ]  OTP is received by `file_transfers.recipient_email`
-
-**Estimation:** 0.5-1 day
-
-### Phase 6 — OTP Verification & Limit Enforcement & File Download
-
-#### Process:
-
-- Display an input OTP form
-- OTP Validation:
-    - One time use only
-    - Valid for 10 minutes after creation
-    - Must be hashed before stored in database
-- Validate if OTP submitted by recipient
-- Only allow file download if:
-    - OTP is validated
-    - hashed validated OTP matches `otp_attempts.otp_hash`
-    - `file_transfers.download_count` < 5
-    - `file_transfers.created_at` > 7 days
-- Display download button
-
-#### Confirmation Points:
-
+- [ ]  OTP Form
 - [ ]  OTP Validation
+
+**Estimation:** 1-1.5 day
+
+### Phase 6 — File Download & Limit Enforcement
+
+#### Process
+
+- Only allow file download if:
+  - OTP is validated
+  - hashed validated OTP matches `otp_attempts.otp_hash`
+  - `file_transfers.download_count` < 5
+  - `file_transfers.created_at` > 7 days
+- Display download button
+- Download file when download button is clicked
+
+#### Confirmation Points
+
 - [ ]  File is downloaded accordingly
 - [ ]  Download button is shown and is clickable accordingly
 
-**Estimation:** 1.5-2 days
+**Estimation:** 1-1.5 days
 
 ### Phase 7 — Automatic Deletion / Cleanup
 
-#### Process:
+#### Process
 
 - Schedule a deletion/cleanup in both database and GCS when:
-    - `file_transfers.status` = expired
-    - `file_transfers.download_count` > 5
+  - `file_transfers.status` = expired
+  - `file_transfers.download_count` > 5
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Files fall in these condition is automatically deleted
 
@@ -261,19 +262,19 @@
 
 ### Phase 8 — Admin Interface
 
-#### Process:
+#### Process
 
 - Shows the following information:
-    - File Name
-    - Recipient
-    - Registration Date and Time  → upload timestamp
-    - Number of downloads (0–5)
-    - Status
-    - Last Download Date and Time
+  - File Name
+  - Recipient
+  - Registration Date and Time  → upload timestamp
+  - Number of downloads (0–5)
+  - Status
+  - Last Download Date and Time
 - Show checkbox for each record
 - Selected checkbox can be deleted by clicking Delete button
 
-#### Confirmation Points:
+#### Confirmation Points
 
 - [ ]  Data are displayed from database to this page
 - [ ]  Checkbox is present for each record
