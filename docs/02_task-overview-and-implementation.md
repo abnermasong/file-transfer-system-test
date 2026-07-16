@@ -23,7 +23,7 @@
 
 ```markdown
 # Decision Making
-	
+
 ### Keep using techs that are already being used on our existing projects
 - React
 - FastAPI
@@ -33,10 +33,10 @@
 - Supabase
 	- Supports relational database
 - GCS
-	- Supports signed URL 
-	
+	- Supports signed URL
+
 ### Resend
-- Free plan supports:		
+- Free plan supports:
 	- Sending emails
 	- 3,000 email per month
 	- 100 email per day
@@ -49,36 +49,46 @@
 #### Process:
 
 - Set up the base project structure
-    
+
     ```markdown
-    file-transfer-system/
+    file-transfer-system-test/
+    ├─ .vscode/
     ├─ app/
-    │  ├─ api/            # FastAPI routes
-    │  ├─ jobs/           # Expired URLs and auto-deletion
-    │  ├─ services/       # Business logic: GCS, Resend, OTP, token
-    │  ├─ db/             # Supabase config, queries
+    │  ├─ db/               # Supabase config, queries
+    │  ├─ routes/
+    │  │  └─ api/           # FastAPI Routes
+    │  ├─ services/         # Business Logic
+    │  │  ├─ utils/         # Utils Logic: GCS, Resend, Token, Formatter
     │  ├─ enums.py
-    │  ├─ config.py
     │  └─ main.py
-    ├─ tests/
+    ├─ docs/
     ├─ frontend/
     │  ├─ src/
-    │  │  ├─ pages/       # Upload, download, admin pages
-    │  │  ├─ components/  # Reusable React components
-    │  │  ├─ api/         # API client functions
-    │  │  └─ main.tsx
+    │  │  ├─ api/
+    │  │  │  └─ client.js   # Backend API Client
+    │  │  ├─ components/    # React components
+    │  │  ├─ pages/         # Upload, Download, Admin Pages
+    │  │  ├─ App.css
+    │  │  ├─ App.jsx
+    │  │  ├─ config.js
+    │  │  ├─ index.css
+    │  │  └─ main.jsx
+    │  ├─ .env.example
+    │  ├─ .gitignore
+    │  ├─ eslint.config.js
+    │  ├─ index.html
+    │  ├─ package-lock.json
     │  ├─ package.json
-    │  ├─ vite.config.ts
-    │  ├─ .env
-    │  └─ .env.example
-    ├─ pyproject.toml
-    ├─ uv.lock
-    ├─ .env
+    │  └─ vite.config.js
     ├─ .env.example
     ├─ .gitignore
-    └─ README.md
+    ├─ .python-version
+    ├─ README.md
+    ├─ pyproject.toml
+    ├─ run.py
+    └─ uv.lock
     ```
-    
+
 - Initialize backend project with `uv`
 - Initialize React frontend inside `frontend/`
 - Add CORS in FastAPI
@@ -116,11 +126,11 @@
 - Create the following tables:
     - Table 1: `file_transfers` (long-lived)
     - Table 2: `otp_attempts` (short-lived)
-    
+
     ```mermaid
     erDiagram
         file_transfers ||--o{ otp_attempts : "has"
-    
+
         file_transfers {
             uuid id PK "unique identifier"
             text file_name "original file name, retained as-is"
@@ -136,7 +146,7 @@
             text last_download_ip "nullable, IP of most recent download"
             text status "Uploaded / Available / Download Limit Reached / Expired / Deleted"
         }
-    
+
         otp_attempts {
             uuid id PK "unique identifier"
             uuid file_transfer_id FK "references file_transfers.id"
@@ -147,7 +157,7 @@
             text ip_address "nullable, IP that requested this OTP"
         }
     ```
-    
+
 
 #### Confirmation Points:
 
@@ -187,9 +197,9 @@
 - Display landing page according to status
     - Uploaded → Request OTP to Access
     - Available → Request OTP to Access
-    - Download Limit Reached → Download Limit Reached
+    - Download Limit Reached → Download limit reached.
     - Expired → This link has expired
-    - Deleted → This link is not found
+    - Deleted → This link was not found
 
 #### Confirmation Points:
 
