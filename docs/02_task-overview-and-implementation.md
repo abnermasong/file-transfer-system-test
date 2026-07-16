@@ -282,6 +282,10 @@
 
 **Estimation:** 1-1.5 day
 
-### Phase 9 — Testing
+### Phase 9 — Deploy to Production
+
+**Estimation:** 1-1.5 day
+
+### Phase 10 — Testing
 
 **Estimation:** 1 day
