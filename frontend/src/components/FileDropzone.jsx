@@ -51,7 +51,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
     inputRef.current?.click();
   };
 
-  const renderDropzoneContent = () => {
+  const renderDropzoneMessage = () => {
     if (fileError) {
       return (
         <>
@@ -109,7 +109,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
         className="hidden"
       />
 
-      {renderDropzoneContent()}
+      {renderDropzoneMessage()}
     </div>
   );
 }
