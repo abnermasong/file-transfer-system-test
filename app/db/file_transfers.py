@@ -1,4 +1,4 @@
-from app.db.utils.supabase import get_supabase_client
+from app.db.supabase import get_supabase_client
 
 
 def insert_file_transfer(
