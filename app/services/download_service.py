@@ -3,7 +3,6 @@ from app.enums import DownloadPageState, FileTransferStatus
 
 
 _TRANSFER_STATUS_TO_PAGE_STATE = {
-    FileTransferStatus.UPLOADED: DownloadPageState.OTP_REQUIRED,
     FileTransferStatus.AVAILABLE: DownloadPageState.OTP_REQUIRED,
     FileTransferStatus.DOWNLOAD_LIMIT_REACHED: (
         DownloadPageState.DOWNLOAD_LIMIT_REACHED

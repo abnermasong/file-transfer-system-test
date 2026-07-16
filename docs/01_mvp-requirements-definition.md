@@ -158,7 +158,6 @@ https://download.example.com/xxxxxxxxxxxxxxxx
 
 # 6. Status
 
-- Uploaded
 - Available
 - Download Limit Reached
 - Expired
