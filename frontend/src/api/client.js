@@ -31,3 +31,17 @@ export async function getDownloadStatus(downloadToken) {
 
   return data;
 }
+
+export async function requestOtp(downloadToken) {
+  const res = await fetch(`${API_BASE_URL}/api/download/${downloadToken}/otp`, {
+    method: "POST",
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.detail || `Failed to request otp: ${res.status}`);
+  }
+
+  return data;
+}
