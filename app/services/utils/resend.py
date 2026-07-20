@@ -13,6 +13,12 @@ def send_upload_notification_email(
     resend.api_key = os.getenv("RESEND_API_KEY", "")
     sender_email = os.getenv("RESEND_SENDER_EMAIL", "onboarding@resend.dev")
 
+    now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
+    sent_at = (
+        f"{now_jst.strftime('%B')} {now_jst.day}, {now_jst.year} "
+        f"at {now_jst.strftime('%I:%M:%S %p').lstrip('0')} JST"
+    )
+
     escaped_file_name = escape(file_name)
     escaped_download_url = escape(download_url, quote=True)
     escaped_expires_at = escape(expires_at)
@@ -70,7 +76,7 @@ def send_upload_notification_email(
         {
             "from": sender_email,
             "to": [recipient_email],
-            "subject": f"A file has been shared with you: {file_name}",
+            "subject": f"A file has been shared with you: {file_name} — {sent_at}",
             "text": (
                 f"A file has been shared with you.\n\n"
                 f"File name: {file_name}\n"

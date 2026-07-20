@@ -154,6 +154,7 @@
             timestamptz created_at "OTP generation timestamp"
             timestamptz expires_at "created_at + 10 minutes"
             timestamptz used_at "nullable, set once OTP is successfully verified"
+            int failed_attempts "default 0"
             text ip_address "nullable, IP that requested this OTP"
         }
     ```

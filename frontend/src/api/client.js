@@ -45,3 +45,22 @@ export async function requestOtp(downloadToken) {
 
   return data;
 }
+
+export async function verifyOtp(downloadToken, otp) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/download/${downloadToken}/otp/verify`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ otp }),
+    },
+  );
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.detail || `Verification failed: ${res.status}`);
+  }
+
+  return data;
+}
