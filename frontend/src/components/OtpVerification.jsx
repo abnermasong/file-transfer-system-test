@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { requestOtp, verifyOtp } from "../api/client";
+import { getFileDownloadUrl, requestOtp, verifyOtp } from "../api/client";
 import OtpCodeInput from "./OtpCodeInput";
 
 export default function OtpVerification({ fileName, downloadToken }) {
@@ -10,6 +10,9 @@ export default function OtpVerification({ fileName, downloadToken }) {
   const [verifyOtpStatus, setVerifyOtpStatus] = useState("idle");
   const [verifyOtpMessage, setVerifyOtpMessage] = useState("");
   const [attemptCount, setAttemptCount] = useState(0);
+
+  const [downloadStatus, setDownloadStatus] = useState("idle"); // idle | loading | error
+  const [downloadMessage, setDownloadMessage] = useState("");
 
   const handleRequestOtp = useCallback(async () => {
     setRequestOtpStatus("sending");
@@ -47,6 +50,20 @@ export default function OtpVerification({ fileName, downloadToken }) {
       setVerifyOtpStatus("error");
       setVerifyOtpMessage(err.message);
       setAttemptCount((count) => count + 1);
+    }
+  };
+
+  const handleDownload = async () => {
+    setDownloadStatus("loading");
+    setDownloadMessage("");
+
+    try {
+      const data = await getFileDownloadUrl(downloadToken);
+      window.location.href = data.download_url;
+      setDownloadStatus("idle");
+    } catch (err) {
+      setDownloadStatus("error");
+      setDownloadMessage(err.message);
     }
   };
 
@@ -99,12 +116,23 @@ export default function OtpVerification({ fileName, downloadToken }) {
       )}
 
       {verifyOtpStatus === "verified" && (
-        <button
-          type="button"
-          className="mt-4 w-full rounded-md bg-blue-600 px-6 py-3 font-semibold text-white"
-        >
-          Download
-        </button>
+        <>
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={downloadStatus === "loading"}
+            className="mt-4 w-full rounded-md bg-blue-600 px-6 py-3 font-semibold text-white
+            disabled:cursor-not-allowed disabled:bg-gray-400"
+          >
+            {downloadStatus === "loading"
+              ? "Preparing download..."
+              : "Download"}
+          </button>
+
+          {downloadStatus === "error" && (
+            <p className="mt-3 text-sm text-red-600">{downloadMessage}</p>
+          )}
+        </>
       )}
     </>
   );

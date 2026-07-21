@@ -64,3 +64,16 @@ export async function verifyOtp(downloadToken, otp) {
 
   return data;
 }
+
+export async function getFileDownloadUrl(downloadToken) {
+  const res = await fetch(`${API_BASE_URL}/api/download/${downloadToken}/file`);
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(
+      data.detail || `Failed to get download link: ${res.status}`,
+    );
+  }
+
+  return data;
+}
