@@ -80,3 +80,18 @@ def update_file_transfer_status(
     client.table("file_transfers").update({"status": status}).eq(
         "id", file_transfer_id
     ).execute()
+
+
+def list_file_transfers() -> list[dict]:
+    client = get_supabase_client()
+    result = (
+        client.table("file_transfers")
+        .select("*")
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return result.data or []
+
+
+def mark_file_transfer_deleted(file_transfer_id: str) -> None:
+    update_file_transfer_status(file_transfer_id, FileTransferStatus.DELETED)
