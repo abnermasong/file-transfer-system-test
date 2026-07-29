@@ -1,8 +1,9 @@
-from datetime import datetime, timezone
-
 from app.db.file_transfers import get_file_transfer_by_token, increment_download_count
-from app.db.otp_attempts import get_latest_otp_attempt
 from app.enums import DownloadPageState, FileTransferStatus
+from app.services.file_access_validation import (
+    get_unexpired_available_file_transfer,
+    get_latest_unexpired_otp_attempt,
+)
 from app.services.utils.gcs import generate_signed_download_url
 
 
@@ -44,29 +45,21 @@ def get_download_page_state(download_token: str) -> dict:
 def get_download_url(download_token: str, ip_address: str | None) -> dict:
     generic_error = "Unable to download this file."
 
-    record = get_file_transfer_by_token(download_token)
+    record = get_unexpired_available_file_transfer(download_token)
     if record is None:
         raise FileDownloadError(generic_error)
 
-    if record["status"] != FileTransferStatus.AVAILABLE:
-        raise FileDownloadError(generic_error)
-
-    expires_at = datetime.fromisoformat(record["expires_at"])
-    if datetime.now(timezone.utc) >= expires_at:
-        raise FileDownloadError(generic_error)
-
+    # File can only be downloaded in limited times
     if record["download_count"] >= record["max_downloads"]:
-        raise FileDownloadError("Download limit reached.")
-
-    attempt = get_latest_otp_attempt(record["id"])
+        raise FileDownloadError(
+            "Download limit reached. Please contact the sender for a new link."
+        )
+    attempt = get_latest_unexpired_otp_attempt(record["id"])
     if attempt is None:
         raise FileDownloadError(generic_error)
 
-    if attempt["used_at"] is None:
-        raise FileDownloadError(generic_error)
-
-    otp_expires_at = datetime.fromisoformat(attempt["expires_at"])
-    if datetime.now(timezone.utc) >= otp_expires_at:
+    otp_has_been_verified = attempt["used_at"] is not None
+    if not otp_has_been_verified:
         raise FileDownloadError(generic_error)
 
     signed_url = generate_signed_download_url(
@@ -81,6 +74,8 @@ def get_download_url(download_token: str, ip_address: str | None) -> dict:
     )
 
     if updated is None:
-        raise FileDownloadError("Download limit reached.")
+        raise FileDownloadError(
+            "Download limit reached. Please contact the sender for a new link."
+        )
 
     return {"download_url": signed_url, "file_name": record["file_name"]}
