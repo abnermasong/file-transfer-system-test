@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import Pagination from "../components/Pagination";
 
 const STATUS_LABELS = {
   available: "Available",
@@ -18,54 +19,61 @@ const STATUS_STYLES = {
 
 export default function AdminPage() {
   const [transfers, setTransfers] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [loadStatus, setLoadStatus] = useState("loading"); // loading | loaded | error
   const [loadError, setLoadError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [transferToDelete, setTransferToDelete] = useState(null);
   const [deleteError, setDeleteError] = useState("");
 
-  const loadTransfers = async () => {
+  const requestIdRef = useRef(0);
+
+  const loadTransfers = useCallback(async () => {
+    const requestId = ++requestIdRef.current;
     setLoadStatus("loading");
     setLoadError("");
 
     try {
-      const data = await getAdminTransfers();
-      setTransfers(data);
+      const data = await getAdminTransfers(page, pageSize);
+      if (requestId !== requestIdRef.current) return;
+      setTransfers(data.transfers);
+      setTotal(data.total);
       setLoadStatus("loaded");
     } catch (err) {
+      if (requestId !== requestIdRef.current) return;
       setLoadStatus("error");
       setLoadError(err.message);
     }
-  };
+  }, [page, pageSize]);
 
   useEffect(() => {
-    getAdminTransfers()
-      .then((data) => {
-        setTransfers(data);
-        setLoadStatus("loaded");
-      })
-      .catch((err) => {
-        setLoadStatus("error");
-        setLoadError(err.message);
-      });
-  }, []);
+    loadTransfers();
+  }, [loadTransfers]);
 
-  const handleDelete = async () => {
+  const handleConfirmDelete = async () => {
     if (!transferToDelete) return;
 
-    const transfer = transferToDelete;
-    setTransferToDelete(null);
-    setDeletingId(transfer.id);
+    setDeletingId(transferToDelete.id);
     setDeleteError("");
 
     try {
-      await deleteTransfer(transfer.id);
+      await deleteTransfer(transferToDelete.id);
+      setTransferToDelete(null);
       await loadTransfers();
     } catch (err) {
       setDeleteError(err.message);
     } finally {
       setDeletingId(null);
     }
+  };
+
+  const handlePageChange = (nextPage) => setPage(nextPage);
+
+  const handlePageSizeChange = (nextPageSize) => {
+    setPage(1);
+    setPageSize(nextPageSize);
   };
 
   return (
@@ -145,7 +153,7 @@ export default function AdminPage() {
                             deletingId !== null || transfer.status === "deleted"
                           }
                           className="rounded bg-red-600 px-3 py-1 text-white
-                          hover:bg-red-700 disabled:bg-red-300"
+                            hover:bg-red-700 disabled:bg-red-300"
                         >
                           {transfer.status === "deleted"
                             ? "Deleted"
@@ -164,6 +172,14 @@ export default function AdminPage() {
                   No file transfer record.
                 </p>
               )}
+
+              <Pagination
+                total={total}
+                page={page}
+                pageSize={pageSize}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+              />
             </>
           )}
         </section>
@@ -172,7 +188,7 @@ export default function AdminPage() {
       <DeleteConfirmationModal
         fileName={transferToDelete?.file_name}
         onCancel={() => setTransferToDelete(null)}
-        onConfirm={handleDelete}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );

@@ -78,8 +78,10 @@ export async function getFileDownloadUrl(downloadToken) {
   return data;
 }
 
-export async function getAdminTransfers() {
-  const res = await fetch(`${API_BASE_URL}/api/admin/transfers`);
+export async function getAdminTransfers(page = 1, pageSize = 10) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/admin/transfers?page=${page}&page_size=${pageSize}`,
+  );
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
@@ -88,7 +90,7 @@ export async function getAdminTransfers() {
     );
   }
 
-  return data.transfers;
+  return data;
 }
 
 export async function deleteTransfer(id) {

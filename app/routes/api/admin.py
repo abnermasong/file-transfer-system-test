@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Query
 
 from app.services.admin_service import delete_transfer, get_admin_transfer_list
 
@@ -6,8 +6,17 @@ router = APIRouter()
 
 
 @router.get("/admin/transfers")
-def get_transfers():
-    return {"transfers": get_admin_transfer_list()}
+def get_transfers(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10),
+):
+    if page_size not in {10, 25, 50, 100}:
+        raise HTTPException(
+            status_code=422,
+            detail="page_size must be 10, 25, 50, or 100",
+        )
+
+    return get_admin_transfer_list(page, page_size)
 
 
 @router.delete("/admin/transfers/{file_transfer_id}")

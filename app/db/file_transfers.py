@@ -82,15 +82,16 @@ def update_file_transfer_status(
     ).execute()
 
 
-def list_file_transfers() -> list[dict]:
+def list_file_transfers(offset: int, limit: int) -> tuple[list[dict], int]:
     client = get_supabase_client()
     result = (
         client.table("file_transfers")
-        .select("*")
+        .select("*", count="exact")
         .order("created_at", desc=True)
+        .range(offset, offset + limit - 1)
         .execute()
     )
-    return result.data or []
+    return result.data or [], result.count or 0
 
 
 def mark_file_transfer_deleted(file_transfer_id: str) -> None:
