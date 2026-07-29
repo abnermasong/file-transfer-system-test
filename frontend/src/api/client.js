@@ -77,3 +77,32 @@ export async function getFileDownloadUrl(downloadToken) {
 
   return data;
 }
+
+export async function getAdminTransfers() {
+  const res = await fetch(`${API_BASE_URL}/api/admin/transfers`);
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(
+      data.detail || `Failed to load file transfers: ${res.status}`,
+    );
+  }
+
+  return data.transfers;
+}
+
+export async function deleteTransfer(id) {
+  const res = await fetch(`${API_BASE_URL}/api/admin/transfers/${id}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(
+      data.detail || `Failed to delete file tranfer: ${res.status}`,
+    );
+  }
+
+  return data;
+}
