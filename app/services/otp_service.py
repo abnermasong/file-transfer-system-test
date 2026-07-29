@@ -4,11 +4,11 @@ from app.db.otp_attempts import (
     insert_otp_attempt,
     mark_otp_attempt_used,
 )
-from app.services.file_access_validation import (
+from app.services.utils.file_transfers_validation import (
     get_unexpired_available_file_transfer,
-    get_latest_unexpired_otp_attempt,
 )
 from app.services.utils.otp import generate_otp, hash_otp, otp_matches_hash
+from app.services.utils.otp_attempts_validation import get_latest_unexpired_otp_attempt
 from app.services.utils.resend import send_otp_email
 
 MAX_OTP_REQUEST = 15

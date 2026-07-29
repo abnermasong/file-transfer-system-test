@@ -1,10 +1,10 @@
 from app.db.file_transfers import get_file_transfer_by_token, increment_download_count
 from app.enums import DownloadPageState, FileTransferStatus
-from app.services.file_access_validation import (
+from app.services.utils.file_transfers_validation import (
     get_unexpired_available_file_transfer,
-    get_latest_unexpired_otp_attempt,
 )
 from app.services.utils.gcs import generate_signed_download_url
+from app.services.utils.otp_attempts_validation import get_latest_unexpired_otp_attempt
 
 
 class FileDownloadError(Exception):
