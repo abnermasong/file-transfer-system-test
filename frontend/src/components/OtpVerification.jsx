@@ -3,11 +3,11 @@ import { getFileDownloadUrl, requestOtp, verifyOtp } from "../api/client";
 import OtpCodeInput from "./OtpCodeInput";
 
 export default function OtpVerification({ fileName, downloadToken }) {
-  const [requestOtpStatus, setRequestOtpStatus] = useState("sending");
+  const [requestOtpStatus, setRequestOtpStatus] = useState("sending"); // sending | sent | error
   const [requestOtpMessage, setRequestOtpMessage] = useState("");
   const requestedToken = useRef(null);
 
-  const [verifyOtpStatus, setVerifyOtpStatus] = useState("idle");
+  const [verifyOtpStatus, setVerifyOtpStatus] = useState("idle"); // verifying | verfied | error
   const [verifyOtpMessage, setVerifyOtpMessage] = useState("");
   const [attemptCount, setAttemptCount] = useState(0);
 
@@ -117,6 +117,9 @@ export default function OtpVerification({ fileName, downloadToken }) {
 
       {verifyOtpStatus === "verified" && (
         <>
+          {downloadStatus === "error" && (
+            <p className="mt-3 text-sm text-red-600">{downloadMessage}</p>
+          )}
           <button
             type="button"
             onClick={handleDownload}
@@ -128,10 +131,6 @@ export default function OtpVerification({ fileName, downloadToken }) {
               ? "Preparing download..."
               : "Download"}
           </button>
-
-          {downloadStatus === "error" && (
-            <p className="mt-3 text-sm text-red-600">{downloadMessage}</p>
-          )}
         </>
       )}
     </>

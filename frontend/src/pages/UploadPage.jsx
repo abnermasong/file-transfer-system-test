@@ -9,7 +9,7 @@ const MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024;
 export default function FileUploadPage() {
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("idle"); // idle | uploading | success | error
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(null);
 

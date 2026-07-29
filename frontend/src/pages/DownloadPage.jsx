@@ -5,7 +5,7 @@ import DownloadStatus from "../components/DownloadStatus";
 
 export default function DownloadPage() {
   const { downloadToken } = useParams();
-  const [status, setStatus] = useState("loading");
+  const [status, setStatus] = useState("loading"); // loading | otp_required | download_limit_reached | expired | not_found | error
   const [fileName, setFileName] = useState(null);
 
   useEffect(() => {
