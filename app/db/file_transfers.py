@@ -51,11 +51,10 @@ def increment_download_count(
     client = get_supabase_client()
 
     new_count = expected_count + 1
-    new_status = (
-        FileTransferStatus.DOWNLOAD_LIMIT_REACHED
-        if new_count >= max_downloads
-        else FileTransferStatus.AVAILABLE
-    )
+    if new_count >= max_downloads:
+        new_status = FileTransferStatus.DOWNLOAD_LIMIT_REACHED
+    else:
+        new_status = FileTransferStatus.AVAILABLE
 
     result = (
         client.table("file_transfers")
@@ -72,3 +71,12 @@ def increment_download_count(
         .execute()
     )
     return result.data[0] if result.data else None
+
+
+def update_file_transfer_status(
+    file_transfer_id: str, status: FileTransferStatus
+) -> None:
+    client = get_supabase_client()
+    client.table("file_transfers").update({"status": status}).eq(
+        "id", file_transfer_id
+    ).execute()

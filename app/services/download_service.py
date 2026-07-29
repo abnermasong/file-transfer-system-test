@@ -1,5 +1,6 @@
 from app.db.file_transfers import get_file_transfer_by_token, increment_download_count
 from app.enums import DownloadPageState, FileTransferStatus
+from app.services.utils.file_transfers_status import get_actual_status
 from app.services.utils.file_transfers_validation import (
     get_unexpired_available_file_transfer,
 )
@@ -29,8 +30,9 @@ def get_download_page_state(download_token: str) -> dict:
     if record is None:
         return {"state": DownloadPageState.NOT_FOUND}
 
+    actual_status = get_actual_status(record)
     page_state = _TRANSFER_STATUS_TO_PAGE_STATE.get(
-        record["status"], DownloadPageState.NOT_FOUND
+        actual_status, DownloadPageState.NOT_FOUND
     )
 
     if page_state == DownloadPageState.OTP_REQUIRED:
