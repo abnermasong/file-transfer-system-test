@@ -91,7 +91,8 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={loadTransfers}
-                className="rounded bg-blue-500 px-3 py-2 text-white"
+                className="rounded bg-blue-500 px-3 py-2 text-white
+                hover:bg-blue-600"
               >
                 Try again
               </button>
@@ -144,7 +145,7 @@ export default function AdminPage() {
                             deletingId !== null || transfer.status === "deleted"
                           }
                           className="rounded bg-red-600 px-3 py-1 text-white
-                          disabled:bg-red-300"
+                          hover:bg-red-700 disabled:bg-red-300"
                         >
                           {transfer.status === "deleted"
                             ? "Deleted"

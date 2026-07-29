@@ -29,14 +29,16 @@ export default function DeleteConfirmationModal({
             type="button"
             autoFocus
             onClick={onCancel}
-            className="rounded border px-3 py-2"
+            className="rounded border px-3 py-2
+            hover:bg-gray-100"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded bg-red-600 px-3 py-2 text-white"
+            className="rounded bg-red-600 px-3 py-2 text-white
+            hover:bg-red-700"
           >
             Delete
           </button>
