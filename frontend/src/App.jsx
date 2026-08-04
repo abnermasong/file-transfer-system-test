@@ -1,17 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import UploadPage from "./pages/UploadPage";
 import DownloadPage from "./pages/DownloadPage";
 import AdminPage from "./pages/AdminPage";
+import LoginPage from "./pages/LoginPage";
+import PrivateRoute from "./components/PrivateRoute";
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<UploadPage />} />
-        <Route path="/d/:downloadToken" element={<DownloadPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<UploadPage />} />
+          <Route path="/d/:downloadToken" element={<DownloadPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/admin" element={<AdminPage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

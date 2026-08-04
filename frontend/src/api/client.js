@@ -78,33 +78,44 @@ export async function getFileDownloadUrl(downloadToken) {
   return data;
 }
 
-export async function getAdminTransfers(page = 1, pageSize = 10) {
+export async function getAdminTransfers(page, pageSize, getAccessToken) {
+  const token = await getAccessToken();
   const res = await fetch(
     `${API_BASE_URL}/api/admin/transfers?page=${page}&page_size=${pageSize}`,
+    {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+        "Content-Type": "application/json",
+      },
+    },
   );
-  const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(
-      data.detail || `Failed to load file transfers: ${res.status}`,
-    );
+    const body = await res.json().catch(() => ({}));
+    const error = new Error(body.detail || `Request failed (${res.status})`);
+    error.status = res.status;
+    throw error;
   }
 
-  return data;
+  return res.json();
 }
 
-export async function deleteTransfer(id) {
+export async function deleteTransfer(id, getAccessToken) {
+  const token = await getAccessToken();
   const res = await fetch(`${API_BASE_URL}/api/admin/transfers/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+      "Content-Type": "application/json",
+    },
   });
 
-  const data = await res.json().catch(() => ({}));
-
   if (!res.ok) {
-    throw new Error(
-      data.detail || `Failed to delete file tranfer: ${res.status}`,
-    );
+    const body = await res.json().catch(() => ({}));
+    const error = new Error(body.detail || `Request failed (${res.status})`);
+    error.status = res.status;
+    throw error;
   }
 
-  return data;
+  return res.json();
 }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import Pagination from "../components/Pagination";
 
@@ -18,11 +19,13 @@ const STATUS_STYLES = {
 };
 
 export default function AdminPage() {
+  const { getAccessToken, signOut } = useAuth();
+
   const [transfers, setTransfers] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [loadStatus, setLoadStatus] = useState("loading"); // loading | loaded | error
+  const [loadStatus, setLoadStatus] = useState("loading");
   const [loadError, setLoadError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [transferToDelete, setTransferToDelete] = useState(null);
@@ -36,7 +39,7 @@ export default function AdminPage() {
     setLoadError("");
 
     try {
-      const data = await getAdminTransfers(page, pageSize);
+      const data = await getAdminTransfers(page, pageSize, getAccessToken);
       if (requestId !== requestIdRef.current) return;
       setTransfers(data.transfers);
       setTotal(data.total);
@@ -46,7 +49,7 @@ export default function AdminPage() {
       setLoadStatus("error");
       setLoadError(err.message);
     }
-  }, [page, pageSize]);
+  }, [page, pageSize, getAccessToken]);
 
   useEffect(() => {
     loadTransfers();
@@ -59,7 +62,7 @@ export default function AdminPage() {
     setDeleteError("");
 
     try {
-      await deleteTransfer(transferToDelete.id);
+      await deleteTransfer(transferToDelete.id, getAccessToken);
       setTransferToDelete(null);
       await loadTransfers();
     } catch (err) {
@@ -78,8 +81,15 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-200">
-      <header className="bg-blue-500 px-4 py-4 text-white shadow">
+      <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
         <p className="text-sm font-semibold">File Transfer System</p>
+        <button
+          type="button"
+          onClick={signOut}
+          className="border border-white bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        >
+          Logout
+        </button>
       </header>
       <main className="p-6">
         <section className="overflow-x-auto bg-white shadow-lg rounded-md">
@@ -153,7 +163,7 @@ export default function AdminPage() {
                             deletingId !== null || transfer.status === "deleted"
                           }
                           className="rounded bg-red-600 px-3 py-1 text-white
-                            hover:bg-red-700 disabled:bg-red-300"
+                          hover:bg-red-700 disabled:bg-red-300"
                         >
                           {transfer.status === "deleted"
                             ? "Deleted"

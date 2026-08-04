@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
+from app.dependencies import require_admin_session
 from app.services.admin_service import delete_transfer, get_admin_transfer_list
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_admin_session)])
 
 
 @router.get("/admin/transfers")
