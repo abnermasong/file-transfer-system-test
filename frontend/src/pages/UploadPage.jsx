@@ -20,12 +20,12 @@ export default function FileUploadPage() {
 
     setStatus("uploading");
     setMessage("");
+    setResult(null);
 
     try {
       const data = await uploadFile(file, email);
-      setStatus("success");
       setResult(data);
-      setMessage("File uploaded to GCS successfully");
+      setStatus("success");
     } catch (error) {
       setStatus("error");
       setMessage(error.message);
@@ -80,8 +80,13 @@ export default function FileUploadPage() {
             "Send file"
           )}
         </button>
-        <UploadStatus status={status} message={message} result={result} />
       </form>
+      <UploadStatus
+        status={status}
+        message={message}
+        result={result}
+        onDismiss={() => setStatus("idle")}
+      />
     </main>
   );
 }

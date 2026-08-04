@@ -49,7 +49,7 @@ def process_upload(
         upload_file_to_gcs(file_obj, storage_path, content_type=resolved_content_type)
     except Exception as storage_error:
         raise UploadStorageError(
-            "Failed to store file in GCS. Please try again."
+            "Something went wrong while uploading the file. Please try again later."
         ) from storage_error
 
     try:
@@ -66,12 +66,11 @@ def process_upload(
             delete_file_from_gcs(storage_path)
         except Exception as cleanup_error:
             raise UploadDatabaseError(
-                "Upload failed, and cleanup of the stored file also failed. "
-                f"Manual cleanup required at storage_path={storage_path}."
+                "Something went wrong while uploading the file. Please try again later."
             ) from cleanup_error
 
         raise UploadDatabaseError(
-            "Saving transfer record failed. The uploaded file in GCS has been removed."
+            "Something went wrong while uploading the file. Please try again later."
         ) from db_error
 
     try:
@@ -88,7 +87,7 @@ def process_upload(
         )
     except Exception:
         record["email_warning"] = (
-            "File uploaded and record has been appended but an error occured while sending the email notification."
+            "File uploaded successfully, but the email notification could not be sent."
         )
 
     return record
