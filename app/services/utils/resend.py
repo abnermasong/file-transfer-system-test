@@ -34,8 +34,8 @@ def send_upload_notification_email(
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
                            style="max-width: 600px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px;">
                         <tr>
-                            <td style="padding: 40px;">
-                                <p style="margin: 0 0 12px; color: #2563eb; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em;">
+                            <td style="padding: 40px; text-align: center;">
+                                <p style="margin: 0 0 12px; color: #2563eb; font-size: 16px; font-weight: bold; text-align: left; text-transform: uppercase; letter-spacing: 0.08em;">
                                     A file has been shared with you
                                 </p>
 
@@ -47,7 +47,7 @@ def send_upload_notification_email(
 
                                 <a href="{escaped_download_url}"
                                    style="display: inline-block; padding: 13px 22px; background-color: #2563eb; color: #ffffff; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 8px;">
-                                    Download file
+                                    Request OTP to Download File
                                 </a>
 
                                 <p style="margin: 24px 0 0; color: #6b7280; font-size: 14px; line-height: 1.5;">
