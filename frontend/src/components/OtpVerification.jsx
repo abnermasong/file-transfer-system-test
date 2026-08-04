@@ -106,7 +106,9 @@ export default function OtpVerification({ fileName, downloadToken }) {
           />
 
           {verifyOtpStatus === "verifying" && (
-            <p className="mt-3 text-sm text-gray-600">Verifying...</p>
+            <p className="mt-3 flex items-center justify-center gap-2 text-sm text-gray-600">
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-blue-500" />
+            </p>
           )}
 
           {verifyOtpStatus === "error" && (
@@ -124,12 +126,16 @@ export default function OtpVerification({ fileName, downloadToken }) {
             type="button"
             onClick={handleDownload}
             disabled={downloadStatus === "loading"}
-            className="mt-4 w-full rounded-md bg-blue-600 px-6 py-3 font-semibold text-white
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-6 py-3 font-semibold text-white
             disabled:cursor-not-allowed disabled:bg-gray-400"
           >
-            {downloadStatus === "loading"
-              ? "Preparing download..."
-              : "Download"}
+            {downloadStatus === "loading" ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              </>
+            ) : (
+              "Download"
+            )}
           </button>
         </>
       )}

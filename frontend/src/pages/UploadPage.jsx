@@ -68,11 +68,17 @@ export default function FileUploadPage() {
         <button
           type="submit"
           disabled={!file || !email || status === "uploading"}
-          className="w-full mt-6 px-6 py-3 text-white font-semibold bg-blue-600 rounded-md
+          className="flex w-full items-center justify-center gap-2 mt-6 px-6 py-3 text-white font-semibold bg-blue-600 rounded-md
             hover:bg-blue-700
             disabled:cursor-not-allowed disabled:bg-gray-400"
         >
-          {status === "uploading" ? "Uploading..." : "Send file"}
+          {status === "uploading" ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            </>
+          ) : (
+            "Send file"
+          )}
         </button>
         <UploadStatus status={status} message={message} result={result} />
       </form>

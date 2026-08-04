@@ -100,7 +100,9 @@ export default function AdminPage() {
           )}
 
           {loadStatus === "loading" && (
-            <p className="p-4 text-gray-500">Loading transfers...</p>
+            <div className="flex items-center justify-center p-8">
+              <span className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
+            </div>
           )}
 
           {loadStatus === "error" && (
