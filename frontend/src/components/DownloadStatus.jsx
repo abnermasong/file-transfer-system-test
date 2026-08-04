@@ -14,15 +14,17 @@ export default function DownloadStatus({ status, fileName, downloadToken }) {
     otp_required: (
       <OtpVerification fileName={fileName} downloadToken={downloadToken} />
     ),
-    download_limit_reached: <StatusMessage message="Download limit reached." />,
-    expired: <StatusMessage message="This link has expired." />,
-    not_found: <StatusMessage message="This link was not found." />,
-    error: <StatusMessage message="Something went wrong." />,
+    download_limit_reached: (
+      <StatusMessage message="ダウンロード回数の上限に達しました。" />
+    ),
+    expired: <StatusMessage message="このリンクの有効期限が切れています。" />,
+    not_found: <StatusMessage message="このリンクは見つかりませんでした。" />,
+    error: <StatusMessage message="エラーが発生しました。" />,
   };
 
   return (
     renderByDownloadStatus[status] ?? (
-      <StatusMessage message="Something went wrong." />
+      <StatusMessage message="エラーが発生しました。" />
     )
   );
 }

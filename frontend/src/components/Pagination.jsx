@@ -23,9 +23,9 @@ export default function Pagination({
       </span>
 
       <div className="flex items-center gap-3">
-        <span>Items Per Page</span>
+        <span>1ページの表示件数</span>
         <select
-          aria-label="Results per page"
+          aria-label="results-per-page"
           value={pageSize}
           onChange={(event) => onPageSizeChange(Number(event.target.value))}
           className="rounded border px-2 py-1 hover:bg-gray-100"
@@ -38,7 +38,7 @@ export default function Pagination({
         </select>
         <button
           type="button"
-          aria-label="Previous page"
+          aria-label="previous-page"
           disabled={page === 1}
           onClick={() => changePage(page - 1)}
           className="rounded border px-3 py-1 hover:bg-gray-100 disabled:text-gray-300"
@@ -46,11 +46,11 @@ export default function Pagination({
           ‹
         </button>
         <span>
-          Page {page} / {totalPages}
+          ページ {page} / {totalPages}
         </span>
         <button
           type="button"
-          aria-label="Next page"
+          aria-label="next-page"
           disabled={page === totalPages}
           onClick={() => changePage(page + 1)}
           className="rounded border px-3 py-1 hover:bg-gray-100 disabled:text-gray-300"

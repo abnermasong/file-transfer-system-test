@@ -20,7 +20,7 @@ export default function LoginPage() {
       await login(email.trim(), password);
       navigate("/admin");
     } catch {
-      setError("Invalid email or password.");
+      setError("メールアドレスまたはパスワードが正しくありません。");
     } finally {
       setSubmitting(false);
     }
@@ -70,9 +70,19 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+            className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
           >
-            {submitting ? "Signing in..." : "Sign in"}
+            {submitting ? (
+              <>
+                <span
+                  aria-hidden="true"
+                  className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
+                />
+                <span className="sr-only">Signing in</span>
+              </>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </form>
       </div>

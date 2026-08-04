@@ -30,7 +30,7 @@ def process_upload(
     file_obj, filename: str, content_type: str | None, recipient_email: str
 ) -> dict:
     if not recipient_email or "@" not in recipient_email:
-        raise UploadValidationError("A valid recipient email is required.")
+        raise UploadValidationError("有効なメールアドレスを入力してください。")
 
     file_obj.seek(0, os.SEEK_END)
     file_size = file_obj.tell()
@@ -38,7 +38,7 @@ def process_upload(
 
     if file_size > MAX_FILE_SIZE_BYTES:
         raise UploadFileTooLargeError(
-            f"File exceeds the {MAX_FILE_SIZE_BYTES // (1024 * 1024)} MB limit."
+            f"ファイルサイズが{MAX_FILE_SIZE_BYTES // (1024 * 1024)}MBの上限を超えています。"
         )
 
     download_token = generate_download_token()
@@ -49,7 +49,7 @@ def process_upload(
         upload_file_to_gcs(file_obj, storage_path, content_type=resolved_content_type)
     except Exception as storage_error:
         raise UploadStorageError(
-            "Something went wrong while uploading the file. Please try again later."
+            "ファイルのアップロード中に問題が発生しました。"
         ) from storage_error
 
     try:
@@ -66,11 +66,11 @@ def process_upload(
             delete_file_from_gcs(storage_path)
         except Exception as cleanup_error:
             raise UploadDatabaseError(
-                "Something went wrong while uploading the file. Please try again later."
+                "ファイルのアップロード中に問題が発生しました。"
             ) from cleanup_error
 
         raise UploadDatabaseError(
-            "Something went wrong while uploading the file. Please try again later."
+            "ファイルのアップロード中に問題が発生しました。"
         ) from db_error
 
     try:
@@ -87,7 +87,7 @@ def process_upload(
         )
     except Exception:
         record["email_warning"] = (
-            "File uploaded successfully, but the email notification could not be sent."
+            "ファイルはアップロードされましたが、通知メールを送信できませんでした。"
         )
 
     return record

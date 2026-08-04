@@ -13,7 +13,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
 
     if (file.size > maxFileSizeBytes) {
       setSelectedFile(null);
-      setFileError(`File must be smaller than ${maxSizeMb} MB.`);
+      setFileError(`ファイルサイズは${maxSizeMb}MB以下にしてください。`);
       onFileSelect?.(null);
 
       if (inputRef.current) {
@@ -57,7 +57,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
         <>
           <p className="font-semibold text-red-600">{fileError}</p>
           <p className="mt-2 text-sm text-gray-500">
-            Click or drop another file
+            クリックするか、別のファイルをドロップしてください
           </p>
         </>
       );
@@ -70,7 +70,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
             {selectedFile.name}
           </p>
           <p className="mt-2 text-sm text-gray-500">
-            Click or drop another file to replace it
+            クリックするか、別のファイルをドロップして変更できます
           </p>
         </>
       );
@@ -78,9 +78,11 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
 
     return (
       <>
-        <p className="font-semibold text-gray-900">Drag and drop a file here</p>
+        <p className="font-semibold text-gray-900">
+          ファイルをここにドラッグ＆ドロップしてください
+        </p>
         <p className="mt-2 text-sm text-gray-500">
-          Maximum file size: {maxSizeMb} MB
+          最大ファイルサイズ：{maxSizeMb}MB
         </p>
       </>
     );

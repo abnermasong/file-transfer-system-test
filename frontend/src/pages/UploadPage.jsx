@@ -39,7 +39,7 @@ export default function FileUploadPage() {
         className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-md"
       >
         <label htmlFor="email" className="text-2xl font-bold text-gray-900">
-          Email
+          メールアドレス
           <RequiredAsterisk />
         </label>
 
@@ -57,7 +57,7 @@ export default function FileUploadPage() {
           htmlFor="file-input"
           className="text-2xl font-bold text-gray-900"
         >
-          Attachment
+          ファイル
           <RequiredAsterisk />
         </label>
 
@@ -77,7 +77,7 @@ export default function FileUploadPage() {
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
             </>
           ) : (
-            "Send file"
+            "ファイルを送信"
           )}
         </button>
       </form>

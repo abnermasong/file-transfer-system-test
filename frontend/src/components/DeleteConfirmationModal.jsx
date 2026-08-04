@@ -18,11 +18,11 @@ export default function DeleteConfirmationModal({
         onClick={(event) => event.stopPropagation()}
       >
         <h2 id="delete-title" className="text-lg font-semibold">
-          Delete file?
+          ファイルを削除しますか？
         </h2>
         <p className="mt-2 text-sm text-gray-600">
-          This will delete <strong className="text-gray-900">{fileName}</strong>
-          .
+          <strong className="text-gray-900">{fileName}</strong>
+          を削除します。
         </p>
         <div className="mt-5 flex justify-end gap-2">
           <button
@@ -32,7 +32,7 @@ export default function DeleteConfirmationModal({
             className="rounded border px-3 py-2
             hover:bg-gray-100"
           >
-            Cancel
+            キャンセル
           </button>
           <button
             type="button"
@@ -40,7 +40,7 @@ export default function DeleteConfirmationModal({
             className="rounded bg-red-600 px-3 py-2 text-white
             hover:bg-red-700"
           >
-            Delete
+            削除
           </button>
         </div>
       </div>

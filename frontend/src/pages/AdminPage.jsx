@@ -88,7 +88,7 @@ export default function AdminPage() {
           onClick={signOut}
           className="border border-white bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
         >
-          Logout
+          ログアウト
         </button>
       </header>
       <main className="p-6">
@@ -114,7 +114,7 @@ export default function AdminPage() {
                 className="rounded bg-blue-500 px-3 py-2 text-white
                 hover:bg-blue-600"
               >
-                Try again
+                再試行
               </button>
             </div>
           )}
@@ -124,12 +124,12 @@ export default function AdminPage() {
               <table className="w-full text-center text-sm text-gray-800">
                 <thead className="border-b bg-gray-100 text-gray-900">
                   <tr>
-                    <th className="p-3 text-left">File Name</th>
-                    <th>Recipient</th>
-                    <th>Registration Date and Time</th>
-                    <th>Downloads</th>
-                    <th>Status</th>
-                    <th>Last Download Date and Time</th>
+                    <th className="p-3 text-left">ファイル名</th>
+                    <th>送信先</th>
+                    <th>登録日時</th>
+                    <th>ダウンロード数</th>
+                    <th>ステータス</th>
+                    <th>最終ダウンロード日時</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -168,10 +168,10 @@ export default function AdminPage() {
                           hover:bg-red-700 disabled:bg-red-300"
                         >
                           {transfer.status === "deleted"
-                            ? "Deleted"
+                            ? "削除済み"
                             : deletingId === transfer.id
-                              ? "Deleting..."
-                              : "Delete"}
+                              ? "削除中..."
+                              : "削除"}
                         </button>
                       </td>
                     </tr>
@@ -181,7 +181,7 @@ export default function AdminPage() {
 
               {transfers.length === 0 && (
                 <p className="p-6 text-center text-gray-500">
-                  No file transfer record.
+                  データが見つかりませんでした。
                 </p>
               )}
 

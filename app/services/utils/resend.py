@@ -14,19 +14,13 @@ def send_upload_notification_email(
     sender_email = os.getenv("RESEND_SENDER_EMAIL", "onboarding@resend.dev")
 
     now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
-    sent_at = (
-        f"{now_jst.strftime('%B')} {now_jst.day}, {now_jst.year} "
-        f"at {now_jst.strftime('%I:%M:%S %p').lstrip('0')} JST"
-    )
+    sent_at = now_jst.strftime("%Y年%m月%d日 %H:%M:%S（日本時間）")
 
     escaped_file_name = escape(file_name)
     escaped_download_url = escape(download_url, quote=True)
     escaped_expires_at = escape(expires_at)
 
     html_body = f"""
-    <div style="display: none; max-height: 0; overflow: hidden; opacity: 0;">
-        A file is ready for you to download.
-    </div>
     <div style="margin: 0; padding: 40px 16px; background-color: #f3f4f6; font-family: Arial, sans-serif; color: #111827;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tr>
@@ -36,7 +30,7 @@ def send_upload_notification_email(
                         <tr>
                             <td style="padding: 40px; text-align: center;">
                                 <p style="margin: 0 0 12px; color: #2563eb; font-size: 16px; font-weight: bold; text-align: left; text-transform: uppercase; letter-spacing: 0.08em;">
-                                    A file has been shared with you
+                                    ファイルがあなたに共有されました
                                 </p>
 
                                 <div style="margin-bottom: 24px; padding: 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;">
@@ -47,16 +41,16 @@ def send_upload_notification_email(
 
                                 <a href="{escaped_download_url}"
                                    style="display: inline-block; padding: 13px 22px; background-color: #2563eb; color: #ffffff; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 8px;">
-                                    Request OTP to Download File
+                                    OTPをリクエストする
                                 </a>
 
                                 <p style="margin: 24px 0 0; color: #6b7280; font-size: 14px; line-height: 1.5;">
-                                    This download link expires on <strong>{escaped_expires_at}</strong>.
+                                    ダウンロードリンクの有効期限：<strong>{escaped_expires_at}</strong>
                                 </p>
 
                                 <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb;">
                                     <p style="margin: 0 0 4px; color: #6b7280; font-size: 12px; line-height: 1.5;">
-                                        If the button does not work, copy and paste this link into your browser:
+                                        ボタンが機能しない場合は、次のリンクをコピーしてブラウザに貼り付けてください：
                                     </p>
                                     <a href="{escaped_download_url}"
                                        style="color: #2563eb; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere;">
@@ -76,12 +70,12 @@ def send_upload_notification_email(
         {
             "from": sender_email,
             "to": [recipient_email],
-            "subject": f"A file has been shared with you: {file_name} — {sent_at}",
+            "subject": f"A file has been shared with you:{file_name} — {sent_at}",
             "text": (
-                f"A file has been shared with you.\n\n"
-                f"File name: {file_name}\n"
-                f"Download link: {download_url}\n"
-                f"This link expires on: {expires_at}\n"
+                f"ファイルがあなたに共有されました\n\n"
+                f"ファイル名：{file_name}\n"
+                f"ダウンロードリンク：{download_url}\n"
+                f"リンクの有効期限：{expires_at}\n"
             ),
             "html": html_body,
         }
@@ -93,17 +87,11 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
     sender_email = os.getenv("RESEND_SENDER_EMAIL", "onboarding@resend.dev")
 
     now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
-    sent_at = (
-        f"{now_jst.strftime('%B')} {now_jst.day}, {now_jst.year} "
-        f"at {now_jst.strftime('%I:%M:%S %p').lstrip('0')} JST"
-    )
+    sent_at = now_jst.strftime("%Y年%m月%d日 %H:%M:%S（日本時間）")
 
     escaped_otp = escape(otp)
 
     html_body = f"""
-    <div style="display: none; max-height: 0; overflow: hidden; opacity: 0;">
-        Use this one-time code to access your file.
-    </div>
     <div style="margin: 0; padding: 40px 16px; background-color: #f3f4f6; font-family: Arial, sans-serif; color: #111827;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tr>
@@ -113,7 +101,7 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
                         <tr>
                             <td style="padding: 40px;">
                                 <p style="margin: 0 0 12px; color: #2563eb; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em;">
-                                    Your one-time code
+                                    OTPコード
                                 </p>
 
                                 <div style="margin-bottom: 24px; padding: 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;">
@@ -123,7 +111,7 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
                                 </div>
 
                                 <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.5;">
-                                    This code expires in <strong>10 minutes</strong> and can only be used once.
+                                    このOTPの有効期間は<strong>10分</strong>間のみであり、1回のみ使用可能です。
                                 </p>
                             </td>
                         </tr>
@@ -138,10 +126,10 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
         {
             "from": sender_email,
             "to": [recipient_email],
-            "subject": f"Your one-time code — {sent_at}",
+            "subject": f"OTP — {sent_at}",
             "text": (
-                f"Your one-time code is: {otp}\n\n"
-                f"This code expires in 10 minutes and can only be used once."
+                f"OTPコード{otp}\n\n"
+                f"このOTPの有効期間は10分間のみであり、1回のみ使用可能です。"
             ),
             "html": html_body,
         }

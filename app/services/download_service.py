@@ -45,7 +45,7 @@ def get_download_page_state(download_token: str) -> dict:
 
 
 def get_download_url(download_token: str, ip_address: str | None) -> dict:
-    generic_error = "Unable to download this file."
+    generic_error = "ファイルをダウンロードできません。"
 
     record = get_unexpired_available_file_transfer(download_token)
     if record is None:
@@ -54,7 +54,7 @@ def get_download_url(download_token: str, ip_address: str | None) -> dict:
     # File can only be downloaded in limited times
     if record["download_count"] >= record["max_downloads"]:
         raise FileDownloadError(
-            "Download limit reached. Please contact the sender for a new link."
+            "ダウンロード回数の上限に達しました。送信者に新しいリンクを依頼してください。"
         )
     attempt = get_latest_unexpired_otp_attempt(record["id"])
     if attempt is None:
@@ -77,7 +77,7 @@ def get_download_url(download_token: str, ip_address: str | None) -> dict:
 
     if updated is None:
         raise FileDownloadError(
-            "Download limit reached. Please contact the sender for a new link."
+            "ダウンロード回数の上限に達しました。送信者に新しいリンクを依頼してください。"
         )
 
     return {"download_url": signed_url, "file_name": record["file_name"]}

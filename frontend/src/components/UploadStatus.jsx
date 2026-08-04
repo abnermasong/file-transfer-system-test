@@ -11,7 +11,7 @@ const UploadSuccessMessage = ({ warning }) => {
   return (
     <div className="rounded-lg border-l-4 border-green-500 bg-green-100 p-4 pr-10 text-green-700">
       <p className="text-lg font-semibold">Success</p>
-      <p>The recipient has been notified by email.</p>
+      <p>送信先にメールで通知しました。</p>
     </div>
   );
 };

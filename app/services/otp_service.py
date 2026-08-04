@@ -26,12 +26,12 @@ class OtpVerificationError(Exception):
 def request_otp(download_token: str, ip_address: str | None) -> dict:
     record = get_unexpired_available_file_transfer(download_token)
     if record is None:
-        raise OtpRequestError("Unable to send a one-time code for this link.")
+        raise OtpRequestError("このリンク先へOTPを送信できませんでした。")
 
     # OTP can only be requested in limited times
     if count_otp_attempts(record["id"]) >= MAX_OTP_REQUEST:
         raise OtpRequestError(
-            "Too many one-time code requests for this file. Please contact the sender for a new link."
+            "このリンクのOTPリクエスト上限に達しました。送信者に新しいリンクをリクエストしてください。"
         )
 
     otp = generate_otp()
@@ -49,7 +49,7 @@ def request_otp(download_token: str, ip_address: str | None) -> dict:
 
 
 def verify_otp(download_token: str, submitted_otp: str) -> dict:
-    generic_error = "This code is invalid or has expired."
+    generic_error = "OTPが無効か、有効期限が切れています"
 
     record = get_unexpired_available_file_transfer(download_token)
     if record is None:

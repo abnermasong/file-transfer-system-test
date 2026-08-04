@@ -22,7 +22,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
       await requestOtp(downloadToken);
       setRequestOtpStatus("sent");
       setRequestOtpMessage(
-        "A one-time code has been sent to the recipient's email.",
+        "送信先のメールアドレスにワンタイムコードを送信しました。",
       );
     } catch (err) {
       setRequestOtpStatus("error");
@@ -45,7 +45,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
       await verifyOtp(downloadToken, otp);
       setRequestOtpMessage("");
       setVerifyOtpStatus("verified");
-      setVerifyOtpMessage("Code verified.");
+      setVerifyOtpMessage("ワンタイムコードを確認しました。");
     } catch (err) {
       setVerifyOtpStatus("error");
       setVerifyOtpMessage(err.message);
@@ -72,7 +72,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
       <h1 className="text-2xl font-bold text-gray-900">{fileName}</h1>
 
       {requestOtpStatus === "sending" && (
-        <p className="mt-3 text-sm text-gray-600">Sending one-time code...</p>
+        <p className="mt-3 text-sm text-gray-600">OTPを送信中...</p>
       )}
 
       {requestOtpMessage && (
@@ -89,14 +89,14 @@ export default function OtpVerification({ fileName, downloadToken }) {
           onClick={handleRequestOtp}
           className="mt-4 w-full rounded-md bg-blue-600 px-6 py-3 font-semibold text-white"
         >
-          Retry sending code
+          Retry
         </button>
       )}
 
       {requestOtpStatus === "sent" && verifyOtpStatus !== "verified" && (
         <div className="mt-6 border-t pt-6">
           <p className="mb-3 text-sm font-medium text-gray-700">
-            Enter the 6-digit code
+            6桁のOTPを入力してください
           </p>
 
           <OtpCodeInput

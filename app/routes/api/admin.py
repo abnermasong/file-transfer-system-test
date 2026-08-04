@@ -14,7 +14,7 @@ def get_transfers(
     if page_size not in {10, 25, 50, 100}:
         raise HTTPException(
             status_code=422,
-            detail="page_size must be 10, 25, 50, or 100",
+            detail="1ページの表示件数は10、25、50、100のいずれかを指定してください。",
         )
 
     return get_admin_transfer_list(page, page_size)
