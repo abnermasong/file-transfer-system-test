@@ -1,14 +1,14 @@
 import os
 
 import uvicorn
-from dotenv import load_dotenv
-
-load_dotenv()
 
 if __name__ == "__main__":
+    is_prod = os.getenv("RENDER") == "true"  # Render sets this automatically
+
     uvicorn.run(
         "app.main:app",
-        host=os.getenv("HOST", "0.0.0.0"),
+        host="0.0.0.0",
         port=int(os.getenv("PORT", 8000)),
-        reload=os.getenv("ENVIRONMENT", "development") == "development",
+        reload=not is_prod,  # reload only in local dev
+        workers=2 if is_prod else 1,  # 2 workers in prod, 1 in dev
     )

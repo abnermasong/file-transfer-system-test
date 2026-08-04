@@ -11,7 +11,6 @@ from app.routes.api.admin import router as admin_router
 load_dotenv()
 
 APP_NAME = "file-transfer-system"
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 app = FastAPI(
@@ -31,7 +30,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
+    return {"status": "ok", "app": APP_NAME}
 
 
 app.include_router(upload_router, prefix="/api")
