@@ -133,8 +133,12 @@ export default function AdminPage() {
                 <tbody>
                   {transfers.map((transfer) => (
                     <tr key={transfer.id} className="border-b border-gray-300">
-                      <td className="p-3 text-left">{transfer.file_name}</td>
-                      <td>{transfer.recipient_email}</td>
+                      <td className="p-3 text-left max-w-md">
+                        {transfer.file_name}
+                      </td>
+                      <td className="p-3 text-left w-1">
+                        {transfer.recipient_email}
+                      </td>
                       <td>{new Date(transfer.created_at).toLocaleString()}</td>
                       <td>
                         {transfer.download_count}/{transfer.max_downloads}
