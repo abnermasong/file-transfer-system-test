@@ -18,14 +18,19 @@ export default function DownloadPage() {
   }, [downloadToken]);
 
   return (
-    <main className="grid min-h-screen place-items-center bg-gray-100">
-      <div className="w-full max-w-xl bg-white p-6 text-center shadow-lg rounded-md">
-        <DownloadStatus
-          status={status}
-          fileName={fileName}
-          downloadToken={downloadToken}
-        />
-      </div>
-    </main>
+    <div className="flex min-h-screen flex-col bg-gray-200">
+      <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
+        <p className="text-lg font-semibold">File Transfer System</p>
+      </header>
+      <main className="grid flex-1 mb-20 place-items-center">
+        <div className="w-full max-w-xl bg-white p-6 text-center shadow-lg rounded-md">
+          <DownloadStatus
+            status={status}
+            fileName={fileName}
+            downloadToken={downloadToken}
+          />
+        </div>
+      </main>
+    </div>
   );
 }

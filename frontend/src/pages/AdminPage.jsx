@@ -80,9 +80,9 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="min-h-screen bg-gray-300">
       <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
-        <p className="text-sm font-semibold">File Transfer System</p>
+        <p className="text-lg font-semibold">File Transfer System</p>
         <button
           type="button"
           onClick={signOut}
@@ -91,20 +91,18 @@ export default function AdminPage() {
           ログアウト
         </button>
       </header>
-      <main className="p-6">
+      <main className="p-8">
         <section className="overflow-x-auto bg-white shadow-lg rounded-md">
           {deleteError && (
             <p role="alert" className="p-3 text-sm text-red-600">
               {deleteError}
             </p>
           )}
-
           {loadStatus === "loading" && (
             <div className="flex items-center justify-center p-8">
               <span className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
             </div>
           )}
-
           {loadStatus === "error" && (
             <div role="alert" className="p-4">
               <p className="mb-3 text-red-600">{loadError}</p>
@@ -118,14 +116,13 @@ export default function AdminPage() {
               </button>
             </div>
           )}
-
           {loadStatus === "loaded" && (
             <>
               <table className="w-full text-center text-sm text-gray-800">
-                <thead className="border-b bg-gray-100 text-gray-900">
+                <thead className="border-b-4 border-black bg-gray-100 text-gray-900">
                   <tr>
-                    <th className="p-3 text-left">ファイル名</th>
-                    <th>送信先</th>
+                    <th className="p-3">ファイル名</th>
+                    <th className="p-3">送信先</th>
                     <th>登録日時</th>
                     <th>ダウンロード数</th>
                     <th>ステータス</th>
@@ -165,7 +162,7 @@ export default function AdminPage() {
                             deletingId !== null || transfer.status === "deleted"
                           }
                           className="rounded bg-red-600 px-3 py-1 text-white
-                          hover:bg-red-700 disabled:bg-red-300"
+                          hover:bg-red-700 disabled:bg-red-300 disabled:cursor-not-allowed"
                         >
                           {transfer.status === "deleted"
                             ? "削除済み"
@@ -178,13 +175,11 @@ export default function AdminPage() {
                   ))}
                 </tbody>
               </table>
-
               {transfers.length === 0 && (
                 <p className="p-6 text-center text-gray-500">
                   データが見つかりませんでした。
                 </p>
               )}
-
               <Pagination
                 total={total}
                 page={page}
@@ -196,7 +191,6 @@ export default function AdminPage() {
           )}
         </section>
       </main>
-
       <DeleteConfirmationModal
         fileName={transferToDelete?.file_name}
         onCancel={() => setTransferToDelete(null)}
