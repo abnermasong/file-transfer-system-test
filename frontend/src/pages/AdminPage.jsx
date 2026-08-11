@@ -5,10 +5,10 @@ import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import Pagination from "../components/Pagination";
 
 const STATUS_LABELS = {
-  available: "Available",
-  download_limit_reached: "Download Limit Reached",
-  expired: "Expired",
-  deleted: "Deleted",
+  available: "在庫あり",
+  download_limit_reached: "ダウンロード制限に達しました",
+  expired: "有効期限切れ",
+  deleted: "削除済み",
 };
 
 const STATUS_STYLES = {
