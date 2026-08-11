@@ -7,19 +7,21 @@ export default function DeleteConfirmationModal({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 flex items-center justify-center bg-black/60 p-4"
       onClick={onCancel}
     >
       <div
-        className="w-full max-w-sm rounded bg-white p-5 shadow-lg"
+        className="w-full max-w-sm overflow-hidden rounded bg-white p-5 shadow-lg mb-20"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-lg font-semibold">ファイルを削除しますか？</h2>
+        <h2 className="-mx-5 -mt-5 mb-5 bg-red-600 px-5 py-3 text-lg font-semibold text-white">
+          削除を確認する
+        </h2>
         <p className="mt-2 text-sm text-gray-600">
-          <strong className="text-gray-900">{fileName}</strong>
-          を削除します。
+          <strong className="text-gray-900">「{fileName}」 </strong>
+          を削除してもよろしいですか？
         </p>
-        <div className="mt-5 flex justify-end gap-2">
+        <div className="mt-3 flex justify-end gap-2">
           <button
             type="button"
             autoFocus
