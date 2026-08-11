@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, session } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -18,13 +18,17 @@ export default function LoginPage() {
 
     try {
       await login(email.trim(), password);
-      navigate("/admin");
+      navigate("/admin", { replace: true });
     } catch {
       setError("メールアドレスまたはパスワードが正しくありません。");
     } finally {
       setSubmitting(false);
     }
   };
+
+  if (session) {
+    return <Navigate to="/admin" replace />;
+  }
 
   return (
     <main className="grid min-h-screen place-items-center bg-gray-100 px-4">
