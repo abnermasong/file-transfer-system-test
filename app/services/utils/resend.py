@@ -26,12 +26,16 @@ def send_upload_notification_email(
             <tr>
                 <td align="center">
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
-                           style="max-width: 600px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px;">
+                           style="max-width: 600px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+                        <tr>
+                            <td style="padding: 16px 40px; background-color: #3b82f6; border-radius: 12px 12px 0 0;">
+                                <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600; line-height: 1.5; text-align: center;">
+                                    ファイルを共有しました
+                                </p>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="padding: 40px; text-align: center;">
-                                <p style="margin: 0 0 12px; color: #2563eb; font-size: 16px; font-weight: bold; text-align: left; text-transform: uppercase; letter-spacing: 0.08em;">
-                                    ファイルがあなたに共有されました
-                                </p>
 
                                 <div style="margin-bottom: 24px; padding: 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;">
                                     <p style="margin: 0; text-align: center; font-size: 16px; font-weight: bold; line-height: 1.5; overflow-wrap: anywhere;">
@@ -70,7 +74,7 @@ def send_upload_notification_email(
         {
             "from": sender_email,
             "to": [recipient_email],
-            "subject": f"A file has been shared with you:{file_name} — {sent_at}",
+            "subject": f"ファイルを共有しました: {file_name} — {sent_at}",
             "text": (
                 f"ファイルがあなたに共有されました\n\n"
                 f"ファイル名：{file_name}\n"
@@ -97,11 +101,19 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
             <tr>
                 <td align="center">
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
-                           style="max-width: 600px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px;">
+                           style="max-width: 600px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+                        <tr>
+                            <td style="padding: 16px 40px; background-color: #3b82f6; border-radius: 12px 12px 0 0;">
+                                <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600; line-height: 1.5; text-align: center;">
+                                    6桁のOTP
+                                </p>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="padding: 40px;">
-                                <p style="margin: 0 0 12px; color: #2563eb; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em;">
-                                    OTPコード
+
+                                <p style="margin: 0 0 12px; color: #111827; font-size: 14px; line-height: 1.5;">
+                                    ファイルをダウンロードするためのOTPは次のとおりです：
                                 </p>
 
                                 <div style="margin-bottom: 24px; padding: 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;">
@@ -126,9 +138,11 @@ def send_otp_email(*, recipient_email: str, otp: str) -> None:
         {
             "from": sender_email,
             "to": [recipient_email],
-            "subject": f"OTP — {sent_at}",
+            "subject": f"OTPのリクエスト — {sent_at}",
             "text": (
-                f"OTPコード{otp}\n\n"
+                f"6桁のOTP\n"
+                f"ファイルをダウンロードするためのOTPは次のとおりです：\n"
+                f"{otp}\n\n"
                 f"このOTPの有効期間は10分間のみであり、1回のみ使用可能です。"
             ),
             "html": html_body,
