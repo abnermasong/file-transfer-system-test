@@ -24,8 +24,8 @@ export default function AdminPage() {
   const [transfers, setTransfers] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [loadStatus, setLoadStatus] = useState("loading");
+  const [pageSize, setPageSize] = useState(25);
+  const [loadStatus, setLoadStatus] = useState("loading"); // loading | loaded | error
   const [loadError, setLoadError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [transferToDelete, setTransferToDelete] = useState(null);

@@ -11,15 +11,10 @@ export default function DeleteConfirmationModal({
       onClick={onCancel}
     >
       <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="delete-title"
         className="w-full max-w-sm rounded bg-white p-5 shadow-lg"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="delete-title" className="text-lg font-semibold">
-          ファイルを削除しますか？
-        </h2>
+        <h2 className="text-lg font-semibold">ファイルを削除しますか？</h2>
         <p className="mt-2 text-sm text-gray-600">
           <strong className="text-gray-900">{fileName}</strong>
           を削除します。
