@@ -4,7 +4,8 @@ import FileDropzone from "../components/FileDropzone";
 import RequiredAsterisk from "../components/RequiredAsterisk";
 import UploadStatus from "../components/UploadStatus";
 
-const MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = 500;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 export default function FileUploadPage() {
   const [file, setFile] = useState(null);
