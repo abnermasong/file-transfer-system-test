@@ -55,6 +55,18 @@ export default function AdminPage() {
     loadTransfers();
   }, [loadTransfers]);
 
+  const formatDateTime = (dateTime) =>
+    new Date(dateTime).toLocaleString("ja-JP", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    });
+
   const handleConfirmDelete = async () => {
     if (!transferToDelete) return;
 
@@ -139,7 +151,7 @@ export default function AdminPage() {
                       <td className="p-3 text-left w-1">
                         {transfer.recipient_email}
                       </td>
-                      <td>{new Date(transfer.created_at).toLocaleString()}</td>
+                      <td> {formatDateTime(transfer.created_at)}</td>
                       <td>
                         {transfer.download_count}/{transfer.max_downloads}
                       </td>
@@ -155,8 +167,8 @@ export default function AdminPage() {
                       </td>
                       <td>
                         {transfer.last_download_at
-                          ? new Date(transfer.last_download_at).toLocaleString()
-                          : "—"}
+                          ? formatDateTime(transfer.last_download_at)
+                          : "-"}
                       </td>
                       <td>
                         <button
