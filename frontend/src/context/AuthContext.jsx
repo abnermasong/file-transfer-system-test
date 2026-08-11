@@ -57,17 +57,14 @@ export function AuthProvider({ children }) {
     window.location.replace("/login");
   };
 
-  const value = useMemo(
-    () => ({
-      session,
-      user: session?.user ?? null,
-      loading,
-      getAccessToken,
-      login,
-      signOut,
-    }),
-    [session, loading, getAccessToken, login, signOut],
-  );
+  const value = {
+    session,
+    user: session?.user ?? null,
+    loading,
+    getAccessToken,
+    login,
+    signOut,
+  };
 
   if (loading) {
     return (
