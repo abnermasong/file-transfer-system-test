@@ -36,7 +36,7 @@ export default function UploadStatus({ status, message, result, onDismiss }) {
   if (!statusMessage) return null;
 
   return (
-    <div className="fixed right-6 top-6 z-50 w-96 max-w-[calc(100%-3rem)] shadow-lg">
+    <div className="fixed right-6 top-20 z-50 w-96 max-w-[calc(100%-3rem)] shadow-lg">
       <button
         type="button"
         onClick={onDismiss}
