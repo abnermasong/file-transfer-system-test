@@ -67,7 +67,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
       return (
         <>
           <p className="max-w-full font-semibold text-gray-900">
-            {selectedFile.name}
+            「{selectedFile.name}」
           </p>
           <p className="mt-2 text-sm text-gray-500">
             クリックするか、別のファイルをドロップして変更できます

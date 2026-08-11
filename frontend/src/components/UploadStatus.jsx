@@ -2,7 +2,6 @@ const UploadSuccessMessage = ({ warning }) => {
   if (warning) {
     return (
       <div className="rounded-lg border-l-4 border-yellow-500 bg-yellow-100 p-4 pr-10 text-yellow-700">
-        <p className="text-lg font-semibold">Warning</p>
         <p>{warning}</p>
       </div>
     );
@@ -10,7 +9,6 @@ const UploadSuccessMessage = ({ warning }) => {
 
   return (
     <div className="rounded-lg border-l-4 border-green-500 bg-green-100 p-4 pr-10 text-green-700">
-      <p className="text-lg font-semibold">Success</p>
       <p>送信先にメールで通知しました。</p>
     </div>
   );
@@ -19,7 +17,6 @@ const UploadSuccessMessage = ({ warning }) => {
 const UploadErrorMessage = ({ message }) => {
   return (
     <div className="rounded-lg border-l-4 border-red-500 bg-red-100 p-4 pr-10 text-red-700">
-      <p className="text-lg font-semibold">Error</p>
       <p>{message}</p>
     </div>
   );
@@ -36,7 +33,7 @@ export default function UploadStatus({ status, message, result, onDismiss }) {
   if (!statusMessage) return null;
 
   return (
-    <div className="fixed right-6 top-20 z-50 w-96 max-w-[calc(100%-3rem)] shadow-lg">
+    <div className="text-left fixed right-6 top-20 z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg">
       <button
         type="button"
         onClick={onDismiss}

@@ -69,7 +69,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-gray-900">{fileName}</h1>
+      <h1 className="text-2xl font-bold text-gray-900">「{fileName}」</h1>
 
       {requestOtpStatus === "sending" && (
         <p className="mt-3 text-sm text-gray-600">OTPを送信中...</p>
@@ -120,21 +120,37 @@ export default function OtpVerification({ fileName, downloadToken }) {
       {verifyOtpStatus === "verified" && (
         <>
           {downloadStatus === "error" && (
-            <p className="mt-3 text-sm text-red-600">{downloadMessage}</p>
+            <div className="text-left fixed right-6 top-20 z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg">
+              <button
+                type="button"
+                onClick={() => {
+                  setDownloadStatus("idle");
+                  setDownloadMessage("");
+                }}
+                className="absolute right-2 top-2 z-10 px-2 text-xl leading-none text-gray-500 hover:text-gray-800"
+              >
+                ×
+              </button>
+              <div className="rounded-lg border-l-4 border-red-500 bg-red-100 p-4 pr-10 text-red-700">
+                <p>{downloadMessage}</p>
+              </div>
+            </div>
           )}
           <button
             type="button"
             onClick={handleDownload}
-            disabled={downloadStatus === "loading"}
+            disabled={
+              downloadStatus === "loading" || downloadStatus === "error"
+            }
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-6 py-3 font-semibold text-white
-            disabled:cursor-not-allowed disabled:bg-gray-400"
+            disabled:cursor-not-allowed disabled:bg-gray-400 enabled:hover:bg-blue-700"
           >
             {downloadStatus === "loading" ? (
               <>
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
               </>
             ) : (
-              "Download"
+              "ダウンロード"
             )}
           </button>
         </>
