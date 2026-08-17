@@ -12,5 +12,5 @@ dependencies = [
     "python-multipart>=0.0.32",
     "resend>=2.35.0",
     "supabase>=2.31.0",
-    "uvicorn[standard]>=0.52.1",
+    "uvicorn[standard]>=0.52.3",
 ]
