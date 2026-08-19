@@ -19,7 +19,7 @@ export default function LoginPage() {
 
     try {
       await login(email.trim(), password);
-      navigate("/admin", { replace: true });
+      navigate("/", { replace: true });
     } catch {
       setError("メールアドレスまたはパスワードが正しくありません。");
     } finally {
@@ -28,7 +28,7 @@ export default function LoginPage() {
   };
 
   if (session) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

@@ -12,10 +12,10 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<UploadPage />} />
           <Route path="/d/:downloadToken" element={<DownloadPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route element={<PrivateRoute />}>
+            <Route path="/" element={<UploadPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Route>
         </Routes>

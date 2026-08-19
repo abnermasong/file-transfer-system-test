@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { uploadFile } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import AppHeader from "../components/AppHeader";
 import FileDropzone from "../components/FileDropzone";
 import RequiredAsterisk from "../components/RequiredAsterisk";
@@ -9,6 +10,7 @@ const MAX_FILE_SIZE_MB = 500;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 export default function UploadPage() {
+  const { signOut } = useAuth();
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | uploading | success | error
@@ -36,7 +38,15 @@ export default function UploadPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <AppHeader />
+      <AppHeader>
+        <button
+          type="button"
+          onClick={signOut}
+          className="border border-white bg-blue-500 px-3 py-1 text-xs text-white hover:bg-blue-600"
+        >
+          ログアウト
+        </button>
+      </AppHeader>
       <main className="grid mb-10 flex-1 place-items-center">
         <form
           onSubmit={handleSubmit}
