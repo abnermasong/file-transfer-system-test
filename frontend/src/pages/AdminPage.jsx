@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
 import { useAuth } from "../context/AuthContext";
-import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import DeleteModal from "../components/DeleteModal";
 import Pagination from "../components/Pagination";
 
 const STATUS_LABELS = {
@@ -33,40 +33,33 @@ export default function AdminPage() {
 
   const requestIdRef = useRef(0);
 
-  const loadTransfers = useCallback(async () => {
-    const requestId = ++requestIdRef.current;
-    setLoadStatus("loading");
-    setLoadError("");
+  const loadTransfers = useCallback(
+    async ({ showTransferListLoading = true } = {}) => {
+      const requestId = ++requestIdRef.current;
+      if (showTransferListLoading) {
+        setLoadStatus("loading");
+        setLoadError("");
+      }
 
-    try {
-      const data = await getAdminTransfers(page, pageSize, getAccessToken);
-      if (requestId !== requestIdRef.current) return;
-      setTransfers(data.transfers);
-      setTotal(data.total);
-      setLoadStatus("loaded");
-    } catch (err) {
-      if (requestId !== requestIdRef.current) return;
-      setLoadStatus("error");
-      setLoadError(err.message);
-    }
-  }, [page, pageSize, getAccessToken]);
+      try {
+        const data = await getAdminTransfers(page, pageSize, getAccessToken);
+        if (requestId !== requestIdRef.current) return;
+        setTransfers(data.transfers);
+        setTotal(data.total);
+        setLoadStatus("loaded");
+      } catch (err) {
+        if (requestId !== requestIdRef.current) return;
+        setLoadStatus("error");
+        setLoadError(err.message);
+      }
+    },
+    [page, pageSize, getAccessToken],
+  );
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadTransfers();
   }, [loadTransfers]);
-
-  const formatDateTime = (dateTime) =>
-    new Date(dateTime).toLocaleString("ja-JP", {
-      timeZone: "Asia/Tokyo",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hourCycle: "h23",
-    });
 
   const handleConfirmDelete = async () => {
     if (!transferToDelete) return;
@@ -76,8 +69,8 @@ export default function AdminPage() {
 
     try {
       await deleteTransfer(transferToDelete.id, getAccessToken);
+      await loadTransfers({ showTransferListLoading: false });
       setTransferToDelete(null);
-      await loadTransfers();
     } catch (err) {
       setDeleteError(err.message);
     } finally {
@@ -91,6 +84,18 @@ export default function AdminPage() {
     setPage(1);
     setPageSize(nextPageSize);
   };
+
+  const formatDateTime = (dateTime) =>
+    new Date(dateTime).toLocaleString("ja-JP", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    });
 
   return (
     <div className="min-h-screen bg-gray-300">
@@ -208,8 +213,9 @@ export default function AdminPage() {
           )}
         </section>
       </main>
-      <DeleteConfirmationModal
+      <DeleteModal
         fileName={transferToDelete?.file_name}
+        isDeleting={deletingId === transferToDelete?.id}
         onCancel={() => setTransferToDelete(null)}
         onConfirm={handleConfirmDelete}
       />
