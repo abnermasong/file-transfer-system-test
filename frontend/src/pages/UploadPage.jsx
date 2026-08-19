@@ -84,9 +84,7 @@ export default function UploadPage() {
               disabled:cursor-not-allowed disabled:bg-gray-400"
           >
             {status === "uploading" ? (
-              <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-              </>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
             ) : (
               "ファイルを送信"
             )}

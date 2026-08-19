@@ -141,9 +141,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
             disabled:cursor-not-allowed disabled:bg-gray-400 enabled:hover:bg-blue-700"
           >
             {downloadStatus === "loading" ? (
-              <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-              </>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
             ) : (
               "ダウンロード"
             )}
