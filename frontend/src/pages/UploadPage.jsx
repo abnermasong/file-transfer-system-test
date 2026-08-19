@@ -3,6 +3,7 @@ import { uploadFile } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import AppHeader from "../components/AppHeader";
 import FileDropzone from "../components/FileDropzone";
+import LoadingSpinner from "../components/LoadingSpinner";
 import RequiredAsterisk from "../components/RequiredAsterisk";
 import UploadStatus from "../components/UploadStatus";
 
@@ -83,11 +84,7 @@ export default function UploadPage() {
               hover:bg-blue-700
               disabled:cursor-not-allowed disabled:bg-gray-400"
           >
-            {status === "uploading" ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-            ) : (
-              "ファイルを送信"
-            )}
+            {status === "uploading" ? <LoadingSpinner /> : "ファイルを送信"}
           </button>
         </form>
         <UploadStatus
