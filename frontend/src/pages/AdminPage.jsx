@@ -52,6 +52,7 @@ export default function AdminPage() {
   }, [page, pageSize, getAccessToken]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadTransfers();
   }, [loadTransfers]);
 
