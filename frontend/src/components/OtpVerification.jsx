@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getFileDownloadUrl, requestOtp, verifyOtp } from "../api/client";
 import OtpCodeInput from "./OtpCodeInput";
+import Toast from "./Toast";
 
 export default function OtpVerification({ fileName, downloadToken }) {
   const [requestOtpStatus, setRequestOtpStatus] = useState("sending"); // sending | sent | error
@@ -120,21 +121,15 @@ export default function OtpVerification({ fileName, downloadToken }) {
       {verifyOtpStatus === "verified" && (
         <>
           {downloadStatus === "error" && (
-            <div className="text-left fixed right-6 top-20 z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg">
-              <button
-                type="button"
-                onClick={() => {
-                  setDownloadStatus("idle");
-                  setDownloadMessage("");
-                }}
-                className="absolute right-2 top-2 z-10 px-2 text-xl leading-none text-gray-500 hover:text-gray-800"
-              >
-                ×
-              </button>
-              <div className="rounded-lg border-l-4 border-red-500 bg-red-100 p-4 pr-10 text-red-700">
-                <p>{downloadMessage}</p>
-              </div>
-            </div>
+            <Toast
+              type="error"
+              onDismiss={() => {
+                setDownloadStatus("idle");
+                setDownloadMessage("");
+              }}
+            >
+              <p>{downloadMessage}</p>
+            </Toast>
           )}
           <button
             type="button"

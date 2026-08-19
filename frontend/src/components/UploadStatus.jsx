@@ -1,47 +1,29 @@
+import Toast from "./Toast";
+
 const UploadSuccessMessage = ({ warning }) => {
-  if (warning) {
-    return (
-      <div className="rounded-lg border-l-4 border-yellow-500 bg-yellow-100 p-4 pr-10 text-yellow-700">
-        <p>{warning}</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-lg border-l-4 border-green-500 bg-green-100 p-4 pr-10 text-green-700">
-      <p>送信先にメールで通知しました。</p>
-    </div>
-  );
-};
-
-const UploadErrorMessage = ({ message }) => {
-  return (
-    <div className="rounded-lg border-l-4 border-red-500 bg-red-100 p-4 pr-10 text-red-700">
-      <p>{message}</p>
-    </div>
-  );
+  if (warning) return <p>{warning}</p>;
+  return <p>送信先にメールで通知しました。</p>;
 };
 
 export default function UploadStatus({ status, message, result, onDismiss }) {
-  const renderByUploadStatus = {
-    success: <UploadSuccessMessage warning={result?.email_warning} />,
-    error: <UploadErrorMessage message={message} />,
+  const toastByUploadStatus = {
+    success: {
+      type: result?.email_warning ? "warning" : "success",
+      content: <UploadSuccessMessage warning={result?.email_warning} />,
+    },
+    error: {
+      type: "error",
+      content: <p>{message}</p>,
+    },
   };
 
-  const statusMessage = renderByUploadStatus[status];
+  const toast = toastByUploadStatus[status];
 
-  if (!statusMessage) return null;
+  if (!toast) return null;
 
   return (
-    <div className="text-left fixed right-6 top-20 z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg">
-      <button
-        type="button"
-        onClick={onDismiss}
-        className="absolute right-2 top-2 z-10 px-2 text-xl leading-none text-gray-500 hover:text-gray-800"
-      >
-        ×
-      </button>
-      {statusMessage}
-    </div>
+    <Toast type={toast.type} onDismiss={onDismiss}>
+      {toast.content}
+    </Toast>
   );
 }
