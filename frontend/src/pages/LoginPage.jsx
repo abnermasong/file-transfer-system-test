@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
@@ -76,11 +77,7 @@ export default function LoginPage() {
               disabled={submitting}
               className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
             >
-              {submitting ? (
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-              ) : (
-                "Sign in"
-              )}
+              {submitting ? <LoadingSpinner /> : "Sign in"}
             </button>
           </form>
         </div>

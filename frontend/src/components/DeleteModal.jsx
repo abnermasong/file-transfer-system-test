@@ -1,3 +1,5 @@
+import LoadingSpinner from "./LoadingSpinner";
+
 export default function DeleteModal({
   fileName,
   isDeleting = false,
@@ -40,11 +42,7 @@ export default function DeleteModal({
             className="flex items-center justify-center gap-2 rounded bg-red-600 px-3 py-2 text-white
             hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-red-300"
           >
-            {isDeleting ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-            ) : (
-              "削除"
-            )}
+            {isDeleting ? <LoadingSpinner /> : "削除"}
           </button>
         </div>
       </div>

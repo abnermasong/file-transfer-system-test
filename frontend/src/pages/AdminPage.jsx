@@ -3,6 +3,7 @@ import { deleteTransfer, getAdminTransfers } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import AppHeader from "../components/AppHeader";
 import DeleteModal from "../components/DeleteModal";
+import LoadingSpinner from "../components/LoadingSpinner";
 import Pagination from "../components/Pagination";
 
 const STATUS_LABELS = {
@@ -118,7 +119,13 @@ export default function AdminPage() {
           )}
           {loadStatus === "loading" && (
             <div className="flex items-center justify-center p-8">
-              <span className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
+              <LoadingSpinner
+                height="h-8"
+                width="w-8"
+                borderWidth="border-4"
+                borderColor="border-gray-200"
+                borderTopColor="border-t-blue-500"
+              />
             </div>
           )}
           {loadStatus === "error" && (

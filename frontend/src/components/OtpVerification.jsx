@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getFileDownloadUrl, requestOtp, verifyOtp } from "../api/client";
+import LoadingSpinner from "./LoadingSpinner";
 import OtpCodeInput from "./OtpCodeInput";
 import Toast from "./Toast";
 
@@ -108,7 +109,10 @@ export default function OtpVerification({ fileName, downloadToken }) {
 
           {verifyOtpStatus === "verifying" && (
             <p className="mt-3 flex items-center justify-center gap-2 text-sm text-gray-600">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-blue-500" />
+              <LoadingSpinner
+                borderColor="border-gray-200"
+                borderTopColor="border-t-blue-500"
+              />
             </p>
           )}
 
@@ -140,11 +144,7 @@ export default function OtpVerification({ fileName, downloadToken }) {
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-6 py-3 font-semibold text-white
             disabled:cursor-not-allowed disabled:bg-gray-400 enabled:hover:bg-blue-700"
           >
-            {downloadStatus === "loading" ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-            ) : (
-              "ダウンロード"
-            )}
+            {downloadStatus === "loading" ? <LoadingSpinner /> : "ダウンロード"}
           </button>
         </>
       )}
