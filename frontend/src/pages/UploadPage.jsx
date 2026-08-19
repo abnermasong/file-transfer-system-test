@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { uploadFile } from "../api/client";
 import { useAuth } from "../context/AuthContext";
-import AppHeader from "../components/AppHeader";
 import FileDropzone from "../components/FileDropzone";
 import LoadingSpinner from "../components/LoadingSpinner";
+import PageHeader from "../components/PageHeader";
+import PageTabs from "../components/PageTabs";
 import RequiredAsterisk from "../components/RequiredAsterisk";
 import UploadStatus from "../components/UploadStatus";
 
@@ -39,7 +40,7 @@ export default function UploadPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <AppHeader>
+      <PageHeader>
         <button
           type="button"
           onClick={signOut}
@@ -47,8 +48,9 @@ export default function UploadPage() {
         >
           ログアウト
         </button>
-      </AppHeader>
-      <main className="grid mb-10 flex-1 place-items-center">
+      </PageHeader>
+      <PageTabs />
+      <main className="grid mb-20 flex-1 place-items-center">
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-md"

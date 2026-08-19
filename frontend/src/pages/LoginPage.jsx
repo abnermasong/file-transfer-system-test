@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import AppHeader from "../components/AppHeader";
-import LoadingSpinner from "../components/LoadingSpinner";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
+import PageHeader from "../components/PageHeader";
 
 export default function LoginPage() {
   const { login, session } = useAuth();
@@ -34,8 +34,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <AppHeader />
-      <main className="grid flex-1 mb-20 place-items-center px-4">
+      <PageHeader />
+      <main className="grid flex-1 mb-30 place-items-center px-4">
         <div className="w-full max-w-sm rounded-md p-8 shadow-lg bg-white">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

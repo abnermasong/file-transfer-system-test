@@ -8,6 +8,7 @@ const TOAST_TYPE = {
 
 export default function Toast({
   type = "success",
+  yPosition = "top-23",
   onDismiss,
   duration = 5000,
   children,
@@ -24,7 +25,9 @@ export default function Toast({
   }, []);
 
   return (
-    <div className="text-left fixed right-6 top-20 z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg">
+    <div
+      className={`text-left fixed right-6 ${yPosition} z-50 w-85 max-w-[calc(100%-3rem)] shadow-lg`}
+    >
       <button
         type="button"
         onClick={onDismiss}

@@ -14,7 +14,7 @@ export default function DeleteModal({
       onClick={isDeleting ? undefined : onCancel}
     >
       <div
-        className="w-full max-w-sm overflow-hidden rounded bg-white p-5 shadow-lg mb-20"
+        className="w-full max-w-sm overflow-hidden rounded bg-white p-5 shadow-lg mb-30"
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="-mx-5 -mt-5 mb-5 bg-red-600 px-5 py-3 text-lg font-semibold text-white">

@@ -25,7 +25,8 @@ export default function FileDownload({ downloadToken }) {
     <>
       {downloadStatus === "error" && (
         <Toast
-          variant="error"
+          type="error"
+          yPosition="top-15"
           onDismiss={() => {
             setDownloadStatus("idle");
             setDownloadMessage("");

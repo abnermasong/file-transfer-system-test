@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
 import { useAuth } from "../context/AuthContext";
-import AppHeader from "../components/AppHeader";
 import DeleteModal from "../components/DeleteModal";
 import LoadingSpinner from "../components/LoadingSpinner";
+import PageHeader from "../components/PageHeader";
+import PageTabs from "../components/PageTabs";
 import Pagination from "../components/Pagination";
 
 const STATUS_LABELS = {
@@ -100,8 +101,8 @@ export default function AdminPage() {
     });
 
   return (
-    <div className="min-h-screen bg-gray-300">
-      <AppHeader>
+    <div className="min-h-screen bg-gray-200">
+      <PageHeader>
         <button
           type="button"
           onClick={signOut}
@@ -109,7 +110,8 @@ export default function AdminPage() {
         >
           ログアウト
         </button>
-      </AppHeader>
+      </PageHeader>
+      <PageTabs />
       <main className="p-8">
         <section className="overflow-x-auto bg-white shadow-lg rounded-md">
           {deleteError && (
