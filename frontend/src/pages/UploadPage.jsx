@@ -2,11 +2,11 @@ import { useState } from "react";
 import { uploadFile } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import FileDropzone from "../components/FileDropzone";
-import LoadingSpinner from "../components/LoadingSpinner";
-import PageHeader from "../components/PageHeader";
-import PageTabs from "../components/PageTabs";
-import RequiredAsterisk from "../components/RequiredAsterisk";
 import UploadStatus from "../components/UploadStatus";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import PageHeader from "../components/ui/PageHeader";
+import PageTabs from "../components/ui/PageTabs";
+import RequiredAsterisk from "../components/ui/RequiredAsterisk";
 
 const MAX_FILE_SIZE_MB = 500;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;

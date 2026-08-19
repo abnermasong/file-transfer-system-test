@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDownloadStatus } from "../api/client";
 import DownloadStatus from "../components/DownloadStatus";
-import PageHeader from "../components/PageHeader";
+import PageHeader from "../components/ui/PageHeader";
 
 export default function DownloadPage() {
   const { downloadToken } = useParams();

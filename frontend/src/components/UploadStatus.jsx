@@ -1,4 +1,4 @@
-import Toast from "./Toast";
+import Toast from "./ui/Toast";
 
 const UploadSuccessMessage = ({ warning }) => {
   if (warning) return <p>{warning}</p>;

@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import DeleteModal from "../components/DeleteModal";
-import LoadingSpinner from "../components/LoadingSpinner";
-import PageHeader from "../components/PageHeader";
-import PageTabs from "../components/PageTabs";
-import Pagination from "../components/Pagination";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import PageHeader from "../components/ui/PageHeader";
+import PageTabs from "../components/ui/PageTabs";
+import Pagination from "../components/ui/Pagination";
 
 const STATUS_LABELS = {
   available: "在庫あり",

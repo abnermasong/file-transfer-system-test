@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LoadingSpinner from "../components/LoadingSpinner";
-import PageHeader from "../components/PageHeader";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import PageHeader from "../components/ui/PageHeader";
 
 export default function LoginPage() {
   const { login, session } = useAuth();

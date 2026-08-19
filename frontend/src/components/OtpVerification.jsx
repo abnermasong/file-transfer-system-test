@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { requestOtp, verifyOtp } from "../api/client";
 import FileDownload from "./FileDownload";
-import LoadingSpinner from "./LoadingSpinner";
 import OtpCodeInput from "./OtpCodeInput";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 export default function OtpVerification({ fileName, downloadToken }) {
   const [requestOtpStatus, setRequestOtpStatus] = useState("sending"); // sending | sent | error

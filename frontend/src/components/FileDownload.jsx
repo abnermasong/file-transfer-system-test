@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getFileDownloadUrl } from "../api/client";
-import LoadingSpinner from "./LoadingSpinner";
-import Toast from "./Toast";
+import LoadingSpinner from "./ui/LoadingSpinner";
+import Toast from "./ui/Toast";
 
 export default function FileDownload({ downloadToken }) {
   const [downloadStatus, setDownloadStatus] = useState("idle"); // idle | loading | error

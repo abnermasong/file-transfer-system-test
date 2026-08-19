@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import UploadPage from "./pages/UploadPage";
-import DownloadPage from "./pages/DownloadPage";
+import PrivateRoute from "./context/PrivateRoute";
 import AdminPage from "./pages/AdminPage";
+import DownloadPage from "./pages/DownloadPage";
 import LoginPage from "./pages/LoginPage";
-import PrivateRoute from "./components/PrivateRoute";
+import UploadPage from "./pages/UploadPage";
 import "./App.css";
 
 function App() {
