@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    window.location.replace("/login");
   };
 
   const value = {
