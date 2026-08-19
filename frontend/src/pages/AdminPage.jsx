@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deleteTransfer, getAdminTransfers } from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import AppHeader from "../components/AppHeader";
 import DeleteModal from "../components/DeleteModal";
 import Pagination from "../components/Pagination";
 
@@ -99,16 +100,15 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-300">
-      <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
-        <p className="text-lg font-semibold">File Transfer System</p>
+      <AppHeader>
         <button
           type="button"
           onClick={signOut}
-          className="border border-white bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+          className="border border-white bg-blue-500 px-3 py-1 text-xs text-white hover:bg-blue-600"
         >
           ログアウト
         </button>
-      </header>
+      </AppHeader>
       <main className="p-8">
         <section className="overflow-x-auto bg-white shadow-lg rounded-md">
           {deleteError && (

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { uploadFile } from "../api/client";
+import AppHeader from "../components/AppHeader";
 import FileDropzone from "../components/FileDropzone";
 import RequiredAsterisk from "../components/RequiredAsterisk";
 import UploadStatus from "../components/UploadStatus";
@@ -35,9 +36,7 @@ export default function UploadPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
-        <p className="text-lg font-semibold">File Transfer System</p>
-      </header>
+      <AppHeader />
       <main className="grid mb-10 flex-1 place-items-center">
         <form
           onSubmit={handleSubmit}

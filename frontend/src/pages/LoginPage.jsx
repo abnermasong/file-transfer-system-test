@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import AppHeader from "../components/AppHeader";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
@@ -32,9 +33,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <header className="flex items-center justify-between bg-blue-500 px-4 py-4 text-white shadow">
-        <p className="text-lg font-semibold">File Transfer System</p>
-      </header>
+      <AppHeader />
       <main className="grid flex-1 mb-20 place-items-center px-4">
         <div className="w-full max-w-sm rounded-md p-8 shadow-lg bg-white">
           <form onSubmit={handleSubmit} className="space-y-4">
