@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 from app.db.file_transfers import get_file_transfer_by_token
 from app.enums import FileTransferStatus
-from app.services.utils.file_transfers_status import get_actual_status
+from app.services.utils.file_transfers_status import sync_actual_status
 
 
 def get_unexpired_available_file_transfer(download_token: str) -> dict | None:
@@ -11,7 +11,7 @@ def get_unexpired_available_file_transfer(download_token: str) -> dict | None:
     if record is None:
         return None
 
-    actual_status = get_actual_status(record)
+    actual_status = sync_actual_status(record)
     if actual_status != FileTransferStatus.AVAILABLE:
         return None
 

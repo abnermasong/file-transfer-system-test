@@ -82,6 +82,17 @@ def update_file_transfer_status(
     ).execute()
 
 
+def update_file_transfers_status_bulk(
+    file_transfer_ids: list[str], status: FileTransferStatus
+) -> None:
+    if not file_transfer_ids:
+        return
+    client = get_supabase_client()
+    client.table("file_transfers").update({"status": status}).in_(
+        "id", file_transfer_ids
+    ).execute()
+
+
 def list_file_transfers(offset: int, limit: int) -> tuple[list[dict], int]:
     client = get_supabase_client()
     result = (
