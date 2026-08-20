@@ -35,7 +35,7 @@ uv sync
 ## 3. Run the Backend (FastAPI)
 
 ```bash
-python run.py
+uv run python run.py
 ```
 
 ## 4. Run the Frontend (React-JS)
