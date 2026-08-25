@@ -19,6 +19,7 @@ def get_admin_transfer_list(
             "file_name": record["file_name"],
             "recipient_email": record["recipient_email"],
             "created_at": record["created_at"],
+            "expired_at": record["expires_at"],
             "download_count": record["download_count"],
             "max_downloads": record["max_downloads"],
             "status": get_actual_status(record),

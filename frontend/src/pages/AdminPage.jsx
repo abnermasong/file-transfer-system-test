@@ -145,12 +145,23 @@ export default function AdminPage() {
           )}
           {loadStatus === "loaded" && (
             <>
-              <table className="w-full text-center text-sm text-gray-800">
-                <thead className="border-b-4 border-black bg-gray-100 text-gray-900">
+              <table className="w-full table-fixed text-center text-sm text-gray-800">
+                <colgroup>
+                  <col className="w-[26%]" /> {/* ファイル名 */}
+                  <col className="w-[17%]" /> {/* 送信先 */}
+                  <col className="w-[11%]" /> {/* 登録日時 */}
+                  <col className="w-[11%]" /> {/* 有効期限日時 */}
+                  <col className="w-[07%]" /> {/* ダウンロード数 */}
+                  <col className="w-[10%]" /> {/* ステータス */}
+                  <col className="w-[11%]" /> {/*   最終ダウンロード日時 */}
+                  <col className="w-[06%]" /> {/* Delete button */}
+                </colgroup>
+                <thead className="border-b-4 bg-gray-100 text-gray-900">
                   <tr>
                     <th className="p-3">ファイル名</th>
-                    <th className="p-3">送信先</th>
+                    <th>送信先</th>
                     <th>登録日時</th>
+                    <th>有効期限日時</th>
                     <th>ダウンロード数</th>
                     <th>ステータス</th>
                     <th>最終ダウンロード日時</th>
@@ -160,13 +171,14 @@ export default function AdminPage() {
                 <tbody>
                   {transfers.map((transfer) => (
                     <tr key={transfer.id} className="border-b border-gray-300">
-                      <td className="p-3 text-left max-w-md">
+                      <td className="p-3 text-left wrap-break-word">
                         {transfer.file_name}
                       </td>
-                      <td className="p-3 text-left w-1">
+                      <td className="p-3 text-left wrap-break-word">
                         {transfer.recipient_email}
                       </td>
                       <td> {formatDateTime(transfer.created_at)}</td>
+                      <td> {formatDateTime(transfer.expired_at)}</td>
                       <td>
                         {transfer.download_count}/{transfer.max_downloads}
                       </td>
