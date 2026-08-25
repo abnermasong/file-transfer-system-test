@@ -66,7 +66,7 @@ export default function FileDropzone({ onFileSelect, maxFileSizeBytes }) {
     if (selectedFile) {
       return (
         <>
-          <p className="max-w-full font-semibold text-gray-900">
+          <p className="px-3 max-w-full break-all font-semibold text-gray-900">
             「{selectedFile.name}」
           </p>
           <p className="mt-2 text-sm text-gray-500">
