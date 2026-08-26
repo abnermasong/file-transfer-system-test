@@ -78,10 +78,18 @@ export async function getFileDownloadUrl(downloadToken) {
   return data;
 }
 
-export async function getAdminTransfers(page, pageSize, getAccessToken) {
+export async function getAdminTransfers(
+  page,
+  pageSize,
+  getAccessToken,
+  status,
+) {
   const token = await getAccessToken();
+  const params = new URLSearchParams({ page, page_size: pageSize });
+  if (status) params.set("status", status);
+
   const res = await fetch(
-    `${API_BASE_URL}/api/admin/transfers?page=${page}&page_size=${pageSize}`,
+    `${API_BASE_URL}/api/admin/transfers?${params.toString()}`,
     {
       headers: {
         Authorization: token ? `Bearer ${token}` : "",

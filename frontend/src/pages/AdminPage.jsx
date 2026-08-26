@@ -6,6 +6,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import PageHeader from "../components/ui/PageHeader";
 import PageTabs from "../components/ui/PageTabs";
 import Pagination from "../components/ui/Pagination";
+import StatusFilter from "../components/StatusFilter";
 
 const STATUS_LABELS = {
   available: "在庫あり",
@@ -25,14 +26,20 @@ export default function AdminPage() {
   const { getAccessToken, signOut } = useAuth();
 
   const [transfers, setTransfers] = useState([]);
+
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
+
   const [loadStatus, setLoadStatus] = useState("loading"); // loading | loaded | error
   const [loadError, setLoadError] = useState("");
+
   const [deletingId, setDeletingId] = useState(null);
   const [transferToDelete, setTransferToDelete] = useState(null);
   const [deleteError, setDeleteError] = useState("");
+
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [statusFilter, setStatusFilter] = useState(""); // "" = all
 
   const requestIdRef = useRef(0);
 
@@ -45,7 +52,12 @@ export default function AdminPage() {
       }
 
       try {
-        const data = await getAdminTransfers(page, pageSize, getAccessToken);
+        const data = await getAdminTransfers(
+          page,
+          pageSize,
+          getAccessToken,
+          statusFilter,
+        );
         if (requestId !== requestIdRef.current) return;
         setTransfers(data.transfers);
         setTotal(data.total);
@@ -56,7 +68,7 @@ export default function AdminPage() {
         setLoadError(err.message);
       }
     },
-    [page, pageSize, getAccessToken],
+    [page, pageSize, statusFilter, getAccessToken],
   );
 
   useEffect(() => {
@@ -81,9 +93,23 @@ export default function AdminPage() {
     }
   };
 
-  const handlePageChange = (nextPage) => setPage(nextPage);
+  const handleStatusFilterChange = (nextStatus) => {
+    setSelectedStatus(nextStatus);
+  };
+
+  const handleStatusFilterSearch = (event) => {
+    event.preventDefault();
+    setPage(1);
+    setStatusFilter(selectedStatus);
+  };
+
+  const handlePageChange = (nextPage) => {
+    setSelectedStatus(statusFilter);
+    setPage(nextPage);
+  };
 
   const handlePageSizeChange = (nextPageSize) => {
+    setSelectedStatus(statusFilter);
     setPage(1);
     setPageSize(nextPageSize);
   };
@@ -112,8 +138,27 @@ export default function AdminPage() {
         </button>
       </PageHeader>
       <PageTabs />
-      <main className="p-8">
-        <section className="overflow-x-auto bg-white shadow-lg rounded-md">
+      <main className="px-8 py-4">
+        <section className="mb-4 rounded-md bg-white p-2.5 shadow-lg">
+          <form
+            onSubmit={handleStatusFilterSearch}
+            className="flex items-end gap-2"
+          >
+            <StatusFilter
+              value={selectedStatus}
+              onChange={handleStatusFilterChange}
+              options={STATUS_LABELS}
+            />
+            <button
+              type="submit"
+              className="rounded-md bg-blue-600 px-2 py-1 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              検索
+            </button>
+          </form>
+        </section>
+
+        <section className="overflow-x-auto rounded-md bg-white shadow-lg">
           {deleteError && (
             <p role="alert" className="p-3 text-sm text-red-600">
               {deleteError}
@@ -156,7 +201,7 @@ export default function AdminPage() {
                   <col className="w-[11%]" /> {/*   最終ダウンロード日時 */}
                   <col className="w-[06%]" /> {/* Delete button */}
                 </colgroup>
-                <thead className="border-b-4 bg-gray-100 text-gray-900">
+                <thead className="border-b-4">
                   <tr>
                     <th className="p-3">ファイル名</th>
                     <th>送信先</th>

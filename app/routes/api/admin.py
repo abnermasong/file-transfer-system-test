@@ -1,6 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 
 from app.dependencies import require_admin_session
+from app.enums import FileTransferStatus
 from app.services.admin_service import delete_transfer, get_admin_transfer_list
 
 router = APIRouter(dependencies=[Depends(require_admin_session)])
@@ -11,6 +12,7 @@ def get_transfers(
     background_tasks: BackgroundTasks,
     page: int = Query(1, ge=1),
     page_size: int = Query(25),
+    status: FileTransferStatus | None = Query(None),
 ):
     if page_size not in {25, 50, 100}:
         raise HTTPException(
@@ -18,7 +20,7 @@ def get_transfers(
             detail="1ページの表示件数は25、50、100のいずれかを指定してください。",
         )
 
-    return get_admin_transfer_list(page, page_size, background_tasks)
+    return get_admin_transfer_list(page, page_size, background_tasks, status=status)
 
 
 @router.delete("/admin/transfers/{file_transfer_id}")

@@ -93,15 +93,20 @@ def update_file_transfers_status_bulk(
     ).execute()
 
 
-def list_file_transfers(offset: int, limit: int) -> tuple[list[dict], int]:
+def list_file_transfers(
+    offset: int, limit: int, status: FileTransferStatus | None = None
+) -> tuple[list[dict], int]:
     client = get_supabase_client()
-    result = (
+    query = (
         client.table("file_transfers")
         .select("*", count="exact")
         .order("created_at", desc=True)
-        .range(offset, offset + limit - 1)
-        .execute()
     )
+
+    if status is not None:
+        query = query.eq("status", status)
+
+    result = query.range(offset, offset + limit - 1).execute()
     return result.data or [], result.count or 0
 
 
