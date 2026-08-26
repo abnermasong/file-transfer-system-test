@@ -192,14 +192,22 @@ export default function AdminPage() {
             <>
               <table className="w-full table-fixed text-center text-sm text-gray-800">
                 <colgroup>
-                  <col className="w-[26%]" /> {/* ファイル名 */}
-                  <col className="w-[17%]" /> {/* 送信先 */}
-                  <col className="w-[11%]" /> {/* 登録日時 */}
-                  <col className="w-[11%]" /> {/* 有効期限日時 */}
-                  <col className="w-[07%]" /> {/* ダウンロード数 */}
-                  <col className="w-[10%]" /> {/* ステータス */}
-                  <col className="w-[11%]" /> {/*   最終ダウンロード日時 */}
-                  <col className="w-[06%]" /> {/* Delete button */}
+                  {/* ファイル名 */}
+                  <col className="w-[27%]" />
+                  {/* 送信先 */}
+                  <col className="w-[17%]" />
+                  {/* 登録日時 */}
+                  <col className="w-[11%]" />
+                  {/* 有効期限日時 */}
+                  <col className="w-[11%]" />
+                  {/* ダウンロード数 */}
+                  <col className="w-[07%]" />
+                  {/* ステータス */}
+                  <col className="w-[10%]" />
+                  {/*   最終ダウンロード日時 */}
+                  <col className="w-[11%]" />
+                  {/* Delete button */}
+                  <col className="w-[06%]" />
                 </colgroup>
                 <thead className="border-b-4">
                   <tr>
