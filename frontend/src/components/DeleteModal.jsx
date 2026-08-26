@@ -20,7 +20,7 @@ export default function DeleteModal({
         <h2 className="-mx-5 -mt-5 mb-5 bg-red-600 px-5 py-3 text-lg font-semibold text-white">
           削除を確認する
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-gray-600 break-all">
           <strong className="text-gray-900">「{fileName}」 </strong>
           を削除してもよろしいですか？
         </p>

@@ -54,7 +54,9 @@ export default function OtpVerification({ fileName, downloadToken }) {
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-gray-900">「{fileName}」</h1>
+      <h1 className="text-2xl font-bold text-gray-900 break-all">
+        「{fileName}」
+      </h1>
 
       {requestOtpStatus === "sending" && (
         <p className="mt-3 text-sm text-gray-600">OTPを送信中...</p>
