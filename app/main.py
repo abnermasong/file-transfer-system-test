@@ -1,0 +1,44 @@
+import logging
+import os
+
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.routes.api.admin import router as admin_router
+from app.routes.api.download import router as download_router
+from app.routes.api.upload import router as upload_router
+
+load_dotenv()
+
+APP_NAME = "file-transfer-system"
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
+app = FastAPI(
+    title=APP_NAME,
+    version="1.0.0",
+)
+
+# CORS: allow the React frontend to call this API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[FRONTEND_URL],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+logging.basicConfig(
+    level=logging.WARNING,
+    format="%(levelname)s:  %(message)s",
+)
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "app": APP_NAME}
+
+
+app.include_router(upload_router, prefix="/api")
+app.include_router(download_router, prefix="/api")
+app.include_router(admin_router, prefix="/api")

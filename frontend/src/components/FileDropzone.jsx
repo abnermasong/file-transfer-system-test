@@ -1,0 +1,135 @@
+import { useRef, useState } from "react";
+
+export default function FileDropzone({
+  onFileSelect,
+  maxFileSizeBytes,
+  maxFilenameCharacters,
+}) {
+  const inputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileError, setFileError] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+
+  const maxSizeMb = Math.round(maxFileSizeBytes / (1024 * 1024));
+
+  const selectFile = (file) => {
+    if (!file) return;
+
+    if (Array.from(file.name).length > maxFilenameCharacters) {
+      setSelectedFile(null);
+      setFileError(
+        `ファイル名は${maxFilenameCharacters}文字以内にしてください。`,
+      );
+      onFileSelect?.(null);
+
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+
+      return;
+    }
+
+    if (file.size > maxFileSizeBytes) {
+      setSelectedFile(null);
+      setFileError(`ファイルサイズは${maxSizeMb}MB以下にしてください。`);
+      onFileSelect?.(null);
+
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+
+      return;
+    }
+
+    setSelectedFile(file);
+    setFileError("");
+    onFileSelect?.(file);
+  };
+
+  const handleInputChange = (event) => {
+    selectFile(event.target.files?.[0]);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setIsDragging(false);
+    selectFile(event.dataTransfer.files?.[0]);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const openFilePicker = () => {
+    inputRef.current?.click();
+  };
+
+  const renderDropzoneMessage = () => {
+    if (fileError) {
+      return (
+        <>
+          <p className="font-semibold text-red-600">{fileError}</p>
+          <p className="mt-2 text-sm text-gray-500">
+            クリックするか、別のファイルをドロップしてください
+          </p>
+        </>
+      );
+    }
+
+    if (selectedFile) {
+      return (
+        <>
+          <p className="px-3 max-w-full break-all font-semibold text-gray-900">
+            「{selectedFile.name}」
+          </p>
+          <p className="mt-2 text-sm text-gray-500">
+            クリックするか、別のファイルをドロップして変更できます
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <p className="font-semibold text-gray-900">
+          ファイルをここにドラッグ＆ドロップしてください
+        </p>
+        <p className="mt-2 text-sm text-gray-500">
+          最大ファイルサイズ：{maxSizeMb}MB
+        </p>
+      </>
+    );
+  };
+
+  return (
+    <div
+      id="file-dropzone"
+      className={`flex flex-col min-h-32 text-center cursor-pointer
+        items-center justify-center border-2 border-dashed rounded-lg ${
+          isDragging
+            ? "border-blue-600 bg-blue-50"
+            : "border-gray-300 hover:border-blue-600 hover:bg-blue-50"
+        }`}
+      onClick={openFilePicker}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      tabIndex={0}
+    >
+      <input
+        id="file-input"
+        ref={inputRef}
+        type="file"
+        onChange={handleInputChange}
+        className="hidden"
+      />
+
+      {renderDropzoneMessage()}
+    </div>
+  );
+}
